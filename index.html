@@ -5,6 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Hussein Motiwala — Backend Engineer</title>
 <meta name="description" content="Hussein Motiwala — Java backend engineer. Banking systems at Oracle Financial Services. Currently MSc Business Analytics, UCD." />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" href="favicon.svg" sizes="32x32" />
+<link rel="canonical" href="https://husseinmotiwala.in" />
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website" />
+<meta property="og:url"         content="https://husseinmotiwala.in" />
+<meta property="og:title"       content="Hussein Motiwala — Backend Engineer" />
+<meta property="og:description" content="Java backend engineer with 3+ years building high-availability banking systems at Oracle. Available June 2026 · Dublin, Ireland." />
+<meta property="og:image"       content="https://husseinmotiwala.in/og-image.svg" />
+<meta property="og:image:width"  content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name"   content="Hussein Motiwala" />
+<meta property="og:locale"      content="en_IE" />
+
+<!-- Twitter / X -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content="Hussein Motiwala — Backend Engineer" />
+<meta name="twitter:description" content="Java backend engineer with 3+ years building high-availability banking systems at Oracle. Available June 2026 · Dublin, Ireland." />
+<meta name="twitter:image"       content="https://husseinmotiwala.in/og-image.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -42,7 +62,10 @@
   *,*::before,*::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   html {
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-attachment: fixed;
     color: var(--ink);
     font-family: var(--mono);
     font-size: 14px;
@@ -100,6 +123,154 @@
     .two-col .col-aside { position: static; }
   }
 
+  /* ---- COMMAND PALETTE ---- */
+  .cmd-trigger {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    transition: color 160ms ease, border-color 160ms ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .cmd-trigger:hover { color: var(--ink-soft); border-color: var(--ink-soft); }
+  @media (max-width: 720px) { .cmd-trigger { display: none; } }
+
+  .cmd-overlay {
+    position: fixed;
+    inset: 0;
+    background: oklch(0 0 0 / 0.55);
+    z-index: 200;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 16vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+  .cmd-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .cmd-panel {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 20px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px -8px oklch(0 0 0 / 0.45), 0 0 0 1px var(--rule);
+    transform: scale(0.97) translateY(-10px);
+    transition: transform 180ms cubic-bezier(.2,.6,.2,1);
+  }
+  .cmd-overlay.open .cmd-panel { transform: scale(1) translateY(0); }
+
+  .cmd-input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cmd-prompt { color: var(--accent); font-size: 15px; flex-shrink: 0; line-height: 1; }
+  .cmd-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+    caret-color: var(--accent);
+  }
+  .cmd-input::placeholder { color: var(--ink-faint); }
+
+  .cmd-results {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+    max-height: 340px;
+    overflow-y: auto;
+  }
+  .cmd-group-label {
+    padding: 8px 18px 4px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    pointer-events: none;
+  }
+  .cmd-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 18px;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    transition: background 100ms ease, color 100ms ease;
+    border-left: 2px solid transparent;
+  }
+  .cmd-item.active {
+    background: var(--accent-soft);
+    color: var(--ink);
+    border-left-color: var(--accent);
+  }
+  .cmd-item .cmd-icon { color: var(--accent); font-size: 10px; width: 18px; flex-shrink: 0; letter-spacing: 0; }
+  .cmd-item .cmd-label { flex: 1; }
+  .cmd-item .cmd-shortcut {
+    font-size: 10px;
+    color: var(--ink-faint);
+    border: 1px solid var(--rule);
+    padding: 1px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+  }
+  .cmd-empty {
+    padding: 24px 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-align: center;
+  }
+  .cmd-footer {
+    padding: 8px 18px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    gap: 18px;
+    font-size: 10px;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    background: var(--bg-soft);
+  }
+  .cmd-footer kbd {
+    font-family: var(--mono);
+    border: 1px solid var(--rule);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+    margin-right: 4px;
+  }
+
+  /* ---- SCROLL PROGRESS ---- */
+  .scroll-progress {
+    position: absolute;
+    top: 0; left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--accent);
+    z-index: 31;
+    transition: width 80ms linear;
+    transform-origin: left;
+  }
+
   /* ---- TOP BAR ---- */
   .bar {
     position: sticky; top: 0; z-index: 30;
@@ -121,20 +292,20 @@
     font-weight: 500;
   }
   .bar .brand .prompt { color: var(--accent); margin-right: 8px; }
-  .bar nav {
+  .bar .nav-desktop {
     margin-left: auto;
     display: flex; gap: 18px;
     color: var(--ink-soft);
   }
-  .bar nav a {
+  .bar .nav-desktop a {
     border-bottom: none;
     color: inherit;
     position: relative;
   }
-  .bar nav a::before { content: "·"; color: var(--ink-faint); margin-right: 6px; opacity: 0; transition: opacity 160ms ease; }
-  .bar nav a:hover { color: var(--ink); }
-  .bar nav a:hover::before, .bar nav a[aria-current="true"]::before { opacity: 1; }
-  .bar nav a[aria-current="true"] { color: var(--ink); }
+  .bar .nav-desktop a::before { content: "·"; color: var(--ink-faint); margin-right: 6px; opacity: 0; transition: opacity 160ms ease; }
+  .bar .nav-desktop a:hover { color: var(--ink); }
+  .bar .nav-desktop a:hover::before, .bar .nav-desktop a[aria-current="true"]::before { opacity: 1; }
+  .bar .nav-desktop a[aria-current="true"] { color: var(--ink); }
 
   .theme-toggle {
     background: transparent;
@@ -161,9 +332,71 @@
     vertical-align: 1px;
   }
 
-  /* hide nav on small */
+  /* ---- MOBILE NAV ---- */
+  .nav-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 6px;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    transition: border-color 160ms ease;
+  }
+  .nav-toggle:hover { border-color: var(--ink-soft); }
+  .nav-toggle span {
+    display: block;
+    width: 13px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+  .nav-mobile {
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: color-mix(in oklch, var(--bg) 94%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--rule);
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+    z-index: 29;
+  }
+  .nav-mobile.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .nav-mobile a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+    border-left: none;
+    transition: color 160ms ease, background 160ms ease;
+  }
+  .nav-mobile a:last-child { border-bottom: none; }
+  .nav-mobile a::before { content: "//"; color: var(--accent); font-size: 11px; }
+  .nav-mobile a:hover { color: var(--ink); background: var(--bg-soft); border-bottom-color: var(--rule); }
+
   @media (max-width: 720px) {
-    .bar nav { display: none; }
+    .bar .nav-desktop { display: none; }
+    .nav-toggle { display: flex; }
+    .theme-toggle { margin-left: auto; }
   }
 
   /* ---- SECTIONS ---- */
@@ -350,6 +583,11 @@
   }
   @keyframes caret {
     50% { opacity: 0; }
+  }
+  .js-caret {
+    color: var(--accent);
+    display: inline;
+    animation: caret 1.1s step-end infinite;
   }
   .hero-side { display: flex; flex-direction: column; gap: 18px; padding-top: 8px; }
 
@@ -955,6 +1193,9 @@
     display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; position: relative;
   }
 
+  /* ---- COPY EMAIL ---- */
+  a[href^="mailto:"] { cursor: copy; }
+
   /* ---- FOOTER ---- */
   footer {
     border-top: 1px solid var(--rule);
@@ -971,14 +1212,17 @@
   /* ---- REVEAL ---- */
   .reveal {
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 600ms cubic-bezier(.2,.6,.2,1), transform 600ms cubic-bezier(.2,.6,.2,1);
+    transform: translateX(22px);
+    transition: opacity 560ms cubic-bezier(.2,.6,.2,1), transform 560ms cubic-bezier(.2,.6,.2,1);
     will-change: opacity, transform;
   }
+  .reveal.from-left { transform: translateX(-22px); }
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
+    .reveal.from-left { transform: none; }
     .hero .status .pulse { animation: none; }
+    .js-caret { animation: none; }
   }
 
   /* prevent FOIT flash */
@@ -997,9 +1241,10 @@
 <body>
 
 <header class="bar" data-screen-label="00 Top bar">
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <div class="bar-inner">
     <a class="brand" href="#top"><span class="prompt">$</span>hussein.motiwala</a>
-    <nav aria-label="Sections">
+    <nav aria-label="Sections" class="nav-desktop">
       <a href="#about">about</a>
       <a href="#experience">work</a>
       <a href="#projects">projects</a>
@@ -1007,10 +1252,22 @@
       <a href="#education">edu</a>
       <a href="#contact">contact</a>
     </nav>
+    <button class="cmd-trigger" id="cmdTrigger" type="button" aria-label="Open command palette">⌘K</button>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
       <span class="dot"></span><span id="themeLabel">light</span>
     </button>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <nav class="nav-mobile" id="navMobile" aria-hidden="true">
+    <a href="#about">about</a>
+    <a href="#experience">work</a>
+    <a href="#projects">projects</a>
+    <a href="#skills">skills</a>
+    <a href="#education">edu</a>
+    <a href="#contact">contact</a>
+  </nav>
 </header>
 
 <main id="top">
@@ -1053,7 +1310,7 @@
         <dl class="hero-meta meta-row">
           <div class="meta-head">
             <span class="dots"><i></i><i></i><i></i></span>
-            <span class="ttl"><span class="accent">$</span> whoami --verbose</span>
+            <span class="ttl"><span class="accent">$</span> <span class="js-typed"></span><span class="js-caret">▍</span></span>
           </div>
           <div class="meta-grid">
             <dt>name</dt><dd>Hussein Motiwala</dd>
@@ -1569,6 +1826,24 @@
   <div><a href="#top">back to top ↑</a></div>
 </footer>
 
+<!-- COMMAND PALETTE -->
+<div class="cmd-overlay" id="cmdOverlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="cmd-panel" id="cmdPanel">
+    <div class="cmd-input-row">
+      <span class="cmd-prompt">›</span>
+      <input class="cmd-input" id="cmdInput" type="text"
+             placeholder="type a command or section..."
+             autocomplete="off" spellcheck="false" />
+    </div>
+    <ul class="cmd-results" id="cmdResults" role="listbox"></ul>
+    <div class="cmd-footer">
+      <span><kbd>↑↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> select</span>
+      <span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
 <script>
   // ---- THEME TOGGLE ----
   (function () {
@@ -1598,25 +1873,47 @@
     }
   })();
 
-  // ---- SCROLL REVEAL ----
+  // ---- SCROLL REVEAL (bidirectional) ----
   (function () {
     var els = document.querySelectorAll(".reveal");
+    var lastY = window.scrollY;
+    var dir = "down";
+
+    window.addEventListener("scroll", function () {
+      var y = window.scrollY;
+      dir = y > lastY ? "down" : "up";
+      lastY = y;
+    }, { passive: true });
+
     if (!("IntersectionObserver" in window)) {
       els.forEach(function (el) { el.classList.add("in"); });
       return;
     }
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
+        var el = entry.target;
         if (entry.isIntersecting) {
-          entry.target.classList.add("in");
+          // Snap to correct off-screen start position (no transition yet)
+          el.style.transition = "none";
+          el.classList.remove("in", "from-left");
+          if (dir === "up") el.classList.add("from-left");
+          void el.offsetHeight; // force reflow so browser registers starting position
+          // Re-enable transition and trigger the reveal
+          el.style.transition = "";
+          el.classList.add("in");
         } else {
-          // Only reset if scrolled past (not on initial load)
-          if (entry.boundingClientRect.top > 0) {
-            entry.target.classList.remove("in");
-          }
+          // Instantly snap back to hidden — no visible reverse animation
+          el.style.transition = "none";
+          el.classList.remove("in", "from-left");
+          // Pre-set the start direction for next time this element enters viewport
+          // above = element exited upward (user scrolled down past it) → next entry will be from left (scrolling up)
+          if (entry.boundingClientRect.top < 0) el.classList.add("from-left");
+          requestAnimationFrame(function () { el.style.transition = ""; });
         }
       });
     }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+
     els.forEach(function (el) { io.observe(el); });
   })();
 
@@ -1637,9 +1934,7 @@
           var idx = Array.prototype.indexOf.call(entry.target.parentNode.children, entry.target);
           setTimeout(function () { entry.target.classList.add("in"); }, idx * 60);
         } else {
-          if (entry.boundingClientRect.top > 0) {
-            entry.target.classList.remove("in");
-          }
+          entry.target.classList.remove("in");
         }
       });
     }, { threshold: 0.2 });
@@ -1648,7 +1943,7 @@
 
   // ---- ACTIVE NAV (scroll spy) ----
   (function () {
-    var navLinks = Array.from(document.querySelectorAll(".bar nav a"));
+    var navLinks = Array.from(document.querySelectorAll(".bar .nav-desktop a"));
     var sections = navLinks.map(function (a) {
       var id = a.getAttribute("href").slice(1);
       return document.getElementById(id);
@@ -1666,6 +1961,272 @@
       });
     }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
     sections.forEach(function (s) { io.observe(s); });
+  })();
+
+  // ---- TYPING EFFECT + META REVEAL ----
+  (function () {
+    var el = document.querySelector('.js-typed');
+    var caret = document.querySelector('.js-caret');
+    if (!el || !caret) return;
+
+    var cmd = 'whoami --verbose';
+    var metaGrid = document.querySelector('.meta-grid');
+    var metaFoot = document.querySelector('.meta-foot');
+    var dts = metaGrid ? Array.from(metaGrid.querySelectorAll('dt')) : [];
+    var rows = dts.map(function(dt) { return [dt, dt.nextElementSibling]; });
+    var allNodes = rows.reduce(function(acc, pair) { return acc.concat(pair); }, []);
+    if (metaFoot) allNodes.push(metaFoot);
+
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      el.textContent = cmd;
+      caret.style.display = 'none';
+      return;
+    }
+
+    // Hide rows for animated reveal
+    allNodes.forEach(function(node) {
+      if (!node) return;
+      node.style.opacity = '0';
+      node.style.transform = 'translateY(4px)';
+      node.style.transition = 'opacity 260ms ease, transform 260ms ease';
+    });
+
+    var idx = 0;
+    function type() {
+      if (idx < cmd.length) {
+        el.textContent += cmd[idx];
+        idx++;
+        setTimeout(type, 52 + Math.random() * 48);
+      } else {
+        // Fade caret after pause
+        setTimeout(function () {
+          caret.style.transition = 'opacity 400ms ease';
+          caret.style.opacity = '0';
+        }, 2800);
+        // Reveal rows as if terminal is printing output
+        setTimeout(revealRows, 220);
+      }
+    }
+
+    function revealRows() {
+      rows.forEach(function(pair, i) {
+        setTimeout(function() {
+          pair.forEach(function(node) {
+            if (!node) return;
+            node.style.opacity = '1';
+            node.style.transform = 'none';
+          });
+        }, i * 100);
+      });
+      if (metaFoot) {
+        setTimeout(function() {
+          metaFoot.style.opacity = '1';
+          metaFoot.style.transform = 'none';
+        }, rows.length * 100 + 80);
+      }
+    }
+
+    setTimeout(type, 800);
+  })();
+
+  // ---- COMMAND PALETTE ----
+  (function () {
+    var overlay  = document.getElementById('cmdOverlay');
+    var panel    = document.getElementById('cmdPanel');
+    var input    = document.getElementById('cmdInput');
+    var resultEl = document.getElementById('cmdResults');
+    var trigger  = document.getElementById('cmdTrigger');
+    if (!overlay || !input || !resultEl) return;
+
+    // Update trigger label for non-Mac
+    if (trigger && !/mac/i.test(navigator.platform)) trigger.textContent = 'Ctrl+K';
+
+    var commands = [
+      { group: 'navigate', icon: '//', label: 'about',      action: function () { navTo('#about'); } },
+      { group: 'navigate', icon: '//', label: 'work',       action: function () { navTo('#experience'); } },
+      { group: 'navigate', icon: '//', label: 'projects',   action: function () { navTo('#projects'); } },
+      { group: 'navigate', icon: '//', label: 'skills',     action: function () { navTo('#skills'); } },
+      { group: 'navigate', icon: '//', label: 'education',  action: function () { navTo('#education'); } },
+      { group: 'navigate', icon: '//', label: 'contact',    action: function () { navTo('#contact'); } },
+      { group: 'actions',  icon: '$',  label: 'toggle theme', action: function () { document.getElementById('themeToggle').click(); } },
+      { group: 'actions',  icon: '$',  label: 'copy email',   action: function () { document.querySelector('a[href^="mailto:"]').click(); } },
+    ];
+
+    function navTo(hash) {
+      var el = hash === '#top' ? null : document.querySelector(hash);
+      var top = el ? el.getBoundingClientRect().top + window.scrollY - 64 : 0;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+
+    var filtered = commands.slice();
+    var activeIdx = 0;
+    var isOpen = false;
+
+    function open() {
+      isOpen = true;
+      overlay.classList.add('open');
+      input.value = '';
+      activeIdx = 0;
+      render(commands);
+      setTimeout(function () { input.focus(); }, 20);
+    }
+
+    function close() {
+      isOpen = false;
+      overlay.classList.remove('open');
+      input.blur();
+    }
+
+    function render(list) {
+      filtered = list;
+      resultEl.innerHTML = '';
+
+      if (!list.length) {
+        var empty = document.createElement('li');
+        empty.className = 'cmd-empty';
+        empty.textContent = 'no commands match "' + input.value + '"';
+        resultEl.appendChild(empty);
+        return;
+      }
+
+      // Group items
+      var groups = {};
+      var order  = [];
+      list.forEach(function (cmd) {
+        if (!groups[cmd.group]) { groups[cmd.group] = []; order.push(cmd.group); }
+        groups[cmd.group].push(cmd);
+      });
+
+      var itemIdx = 0;
+      order.forEach(function (group) {
+        var lbl = document.createElement('li');
+        lbl.className = 'cmd-group-label';
+        lbl.textContent = group;
+        resultEl.appendChild(lbl);
+
+        groups[group].forEach(function (cmd) {
+          var li = document.createElement('li');
+          li.className = 'cmd-item' + (itemIdx === activeIdx ? ' active' : '');
+          li.setAttribute('role', 'option');
+          li.dataset.idx = itemIdx;
+          li.innerHTML =
+            '<span class="cmd-icon">' + cmd.icon + '</span>' +
+            '<span class="cmd-label">' + cmd.label + '</span>';
+          li.addEventListener('mouseenter', function () {
+            activeIdx = +li.dataset.idx;
+            updateActive();
+          });
+          li.addEventListener('click', function () { execute(cmd); });
+          resultEl.appendChild(li);
+          itemIdx++;
+        });
+      });
+    }
+
+    function updateActive() {
+      var items = resultEl.querySelectorAll('.cmd-item');
+      items.forEach(function (el, i) {
+        el.classList.toggle('active', i === activeIdx);
+        if (i === activeIdx) el.scrollIntoView({ block: 'nearest' });
+      });
+    }
+
+    function execute(cmd) {
+      close();
+      setTimeout(cmd.action, 100);
+    }
+
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      activeIdx = 0;
+      render(q ? commands.filter(function (c) {
+        return c.label.includes(q) || c.group.includes(q);
+      }) : commands);
+    });
+
+    // Global keyboard handler
+    document.addEventListener('keydown', function (e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        isOpen ? close() : open();
+        return;
+      }
+      if (!isOpen) return;
+      if (e.key === 'Escape')     { e.preventDefault(); close(); }
+      if (e.key === 'ArrowDown')  { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, filtered.length - 1); updateActive(); }
+      if (e.key === 'ArrowUp')    { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); updateActive(); }
+      if (e.key === 'Enter')      { e.preventDefault(); if (filtered[activeIdx]) execute(filtered[activeIdx]); }
+    });
+
+    // Backdrop + trigger
+    overlay.addEventListener('click', function (e) { if (!panel.contains(e.target)) close(); });
+    if (trigger) trigger.addEventListener('click', open);
+  })();
+
+  // ---- SCROLL PROGRESS ----
+  (function () {
+    var bar = document.getElementById('scrollProgress');
+    if (!bar) return;
+    window.addEventListener('scroll', function () {
+      var doc = document.documentElement;
+      var pct = (doc.scrollTop || document.body.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+      bar.style.width = Math.min(pct, 100) + '%';
+    }, { passive: true });
+  })();
+
+  // ---- MOBILE NAV ----
+  (function () {
+    var btn = document.getElementById('navToggle');
+    var menu = document.getElementById('navMobile');
+    if (!btn || !menu) return;
+
+    function close() {
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('open');
+      menu.setAttribute('aria-hidden', 'true');
+    }
+    function open() {
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      menu.classList.add('open');
+      menu.setAttribute('aria-hidden', 'false');
+    }
+
+    btn.addEventListener('click', function () {
+      btn.classList.contains('open') ? close() : open();
+    });
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    document.addEventListener('click', function (e) {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) close();
+    });
+  })();
+
+  // ---- COPY EMAIL ----
+  (function () {
+    var email = 'motiwalahussein@gmail.com';
+    var links = document.querySelectorAll('a[href="mailto:' + email + '"]');
+    links.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var original = link.textContent;
+        function onCopied() {
+          link.textContent = 'copied!';
+          setTimeout(function () { link.textContent = original; }, 2000);
+        }
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(email).then(onCopied);
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = email; ta.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy'); document.body.removeChild(ta);
+          onCopied();
+        }
+      });
+    });
   })();
 
   // ---- SMOOTH ANCHORS ----

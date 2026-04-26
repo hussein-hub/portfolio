@@ -1,0 +1,102 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#2d3348"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#181c27"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+
+  <!-- Nav bar -->
+  <rect width="1200" height="48" fill="#181c27"/>
+  <line x1="0" y1="47" x2="1200" y2="47" stroke="#2d3348" stroke-width="1"/>
+  <text x="64" y="30" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="13" font-weight="500" fill="#f0ede8">
+    <tspan fill="#4ade80">$</tspan> hussein.motiwala
+  </text>
+  <text x="1136" y="30" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#6b7280" text-anchor="end">about · work · projects · skills · edu · contact</text>
+
+  <!-- ── LEFT COLUMN ── -->
+
+  <!-- Section label -->
+  <text x="64" y="88" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10.5" fill="#6b7280" letter-spacing="1">
+    <tspan fill="#4ade80">//</tspan>  01 / intro    hello, world
+  </text>
+
+  <!-- Status badge -->
+  <rect x="64" y="104" rx="14" ry="14" width="336" height="28" fill="#4ade8014" stroke="#4ade8050" stroke-width="1"/>
+  <circle cx="83" cy="118" r="4" fill="#4ade80"/>
+  <text x="96" y="122" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="#f0ede8">
+    <tspan font-weight="600" fill="#4ade80">Available full-time</tspan>  ·  June 2026  ·  Dublin, Ireland
+  </text>
+
+  <!-- H1 -->
+  <text x="64" y="178" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="36" font-weight="500" fill="#f0ede8">Backend engineer building</text>
+  <text x="64" y="226" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="36" font-weight="500" fill="#f0ede8"><tspan fill="#4ade80">high-availability</tspan> systems</text>
+  <text x="64" y="274" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="36" font-weight="500" fill="#f0ede8">in <tspan fill="#4ade80">Java</tspan> and <tspan fill="#4ade80">SQL</tspan>.</text>
+
+  <!-- Lede -->
+  <text x="64" y="316" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="13" fill="#a8afc0">I'm Hussein — a backend engineer with 3+ years building production services</text>
+  <text x="64" y="336" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="13" fill="#a8afc0">that move millions of records reliably. Strongest in <tspan fill="#f0ede8" font-weight="500">Java and SQL</tspan>.</text>
+
+  <!-- Links -->
+  <rect x="64" y="364" width="118" height="30" rx="6" fill="none" stroke="#2d3348" stroke-width="1"/>
+  <text x="123" y="383" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" fill="#f0ede8" text-anchor="middle">get in touch ↗</text>
+
+  <rect x="194" y="364" width="84" height="30" rx="6" fill="none" stroke="#2d3348" stroke-width="1"/>
+  <text x="236" y="383" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" fill="#f0ede8" text-anchor="middle">github ↗</text>
+
+  <rect x="290" y="364" width="96" height="30" rx="6" fill="none" stroke="#2d3348" stroke-width="1"/>
+  <text x="338" y="383" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" fill="#f0ede8" text-anchor="middle">linkedin ↗</text>
+
+  <!-- URL watermark -->
+  <text x="64" y="580" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#3d4460">husseinmotiwala.in</text>
+
+  <!-- ── RIGHT COLUMN: terminal card ── -->
+  <rect x="730" y="96" width="406" height="298" rx="8" fill="#1e2235" stroke="#2d3348" stroke-width="1"/>
+
+  <!-- Card header -->
+  <rect x="730" y="96" width="406" height="38" rx="8" fill="#181c27"/>
+  <rect x="730" y="118" width="406" height="16" fill="#181c27"/>
+  <line x1="730" y1="134" x2="1136" y2="134" stroke="#2d3348" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- Traffic light dots -->
+  <circle cx="754" cy="115" r="5" fill="#ef4444"/>
+  <circle cx="771" cy="115" r="5" fill="#f59e0b"/>
+  <circle cx="788" cy="115" r="5" fill="#4ade80"/>
+
+  <!-- Command -->
+  <text x="806" y="119" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10.5" fill="#6b7280">
+    <tspan fill="#4ade80">$</tspan>  whoami --verbose
+  </text>
+
+  <!-- Grid rows -->
+  <text x="752" y="158" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10" fill="#6b7280" letter-spacing="0.5">NAME</text>
+  <text x="840" y="158" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12.5" fill="#f0ede8">Hussein Motiwala</text>
+
+  <text x="752" y="182" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10" fill="#6b7280" letter-spacing="0.5">ROLE</text>
+  <text x="840" y="182" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12.5" fill="#f0ede8">Backend Engineer</text>
+
+  <text x="752" y="206" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10" fill="#6b7280" letter-spacing="0.5">LOCATION</text>
+  <text x="840" y="206" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12.5" fill="#f0ede8"><tspan fill="#4ade80">◆</tspan> Dublin, Ireland</text>
+
+  <text x="752" y="230" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10" fill="#6b7280" letter-spacing="0.5">STATUS</text>
+  <text x="840" y="230" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12.5" fill="#f0ede8">Stamp 1G · Sep 2026</text>
+
+  <text x="752" y="254" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10" fill="#6b7280" letter-spacing="0.5">FOCUS</text>
+  <text x="840" y="254" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12.5" fill="#f0ede8">Java · Python · SQL · APIs</text>
+
+  <text x="752" y="278" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10" fill="#6b7280" letter-spacing="0.5">EMAIL</text>
+  <text x="840" y="278" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#4ade80">motiwalahussein@gmail.com</text>
+
+  <!-- Card footer -->
+  <line x1="730" y1="296" x2="1136" y2="296" stroke="#2d3348" stroke-width="1" stroke-dasharray="4 3"/>
+  <rect x="730" y="296" width="406" height="98" fill="#181c27"/>
+  <rect x="730" y="356" width="406" height="38" rx="8" fill="#181c27"/>
+
+  <text x="752" y="322" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10.5" fill="#6b7280">
+    session: open  ·  <tspan fill="#4ade80" font-weight="600">accepting offers</tspan>
+  </text>
+  <text x="1118" y="322" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="10.5" fill="#4ade80">▍</text>
+</svg>
