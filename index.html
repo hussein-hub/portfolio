@@ -13,7 +13,7 @@
 <meta property="og:type"        content="website" />
 <meta property="og:url"         content="https://husseinmotiwala.in" />
 <meta property="og:title"       content="Hussein Motiwala — Backend Engineer" />
-<meta property="og:description" content="Java backend engineer with 3+ years building high-availability banking systems at Oracle. Available June 2026 · Dublin, Ireland." />
+<meta property="og:description" content="Java backend engineer with 3+ years building high-availability banking systems at Oracle. Based in Dublin, Ireland." />
 <meta property="og:image"       content="https://husseinmotiwala.in/og-image.svg" />
 <meta property="og:image:width"  content="1200" />
 <meta property="og:image:height" content="630" />
@@ -23,7 +23,7 @@
 <!-- Twitter / X -->
 <meta name="twitter:card"        content="summary_large_image" />
 <meta name="twitter:title"       content="Hussein Motiwala — Backend Engineer" />
-<meta name="twitter:description" content="Java backend engineer with 3+ years building high-availability banking systems at Oracle. Available June 2026 · Dublin, Ireland." />
+<meta name="twitter:description" content="Java backend engineer with 3+ years building high-availability banking systems at Oracle. Based in Dublin, Ireland." />
 <meta name="twitter:image"       content="https://husseinmotiwala.in/og-image.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -124,6 +124,23 @@
   }
 
   /* ---- COMMAND PALETTE ---- */
+  /* ---- NAVBAR CLOCK ---- */
+  .bar-clock {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11px; font-variant-numeric: tabular-nums;
+    user-select: none; white-space: nowrap; flex-shrink: 0;
+    border-right: 1px solid var(--rule);
+    padding-right: 18px; margin-right: 4px;
+  }
+  .bar-clock::before {
+    content: ''; display: block; width: 5px; height: 5px;
+    border-radius: 50%; background: var(--accent); flex-shrink: 0;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  .bar-clock .clk-date { color: var(--ink-faint); letter-spacing: 0.04em; }
+  .bar-clock .clk-time { color: var(--ink-soft); letter-spacing: 0.02em; }
+  @media (max-width: 720px) { .bar-clock { display: none; } }
+
   .cmd-trigger {
     background: transparent;
     border: 1px solid var(--rule);
@@ -282,8 +299,9 @@
   .bar-inner {
     max-width: 1240px; margin: 0 auto;
     padding: 14px var(--gutter);
-    display: flex; align-items: center; gap: 24px;
+    display: flex; align-items: center; gap: 18px;
     font-size: 12px;
+    position: relative;
   }
   .bar .brand {
     color: var(--ink);
@@ -714,9 +732,9 @@
     padding: 16px 0;
     border-bottom: 1px dashed var(--rule);
     align-items: baseline;
-    transition: padding 200ms ease;
+    transition: transform 200ms ease;
   }
-  .impact:hover { padding-left: 8px; padding-right: 8px; }
+  .impact:hover { transform: translateX(6px); }
   .impact:last-child { border-bottom: none; }
   .impact .figure {
     font-size: 22px;
@@ -1225,6 +1243,120 @@
     .js-caret { animation: none; }
   }
 
+  /* ---- COPY ANCHOR ---- */
+  .copy-anchor {
+    display: inline-flex; align-items: center;
+    background: none; border: none; padding: 0 0 0 7px;
+    color: var(--accent); font-family: var(--mono); font-size: 11px;
+    cursor: pointer; opacity: 0; pointer-events: none;
+    transition: opacity 160ms ease;
+    vertical-align: middle; line-height: 1;
+  }
+  .col-aside:hover .copy-anchor { opacity: 1; pointer-events: auto; }
+  .copy-anchor:focus-visible { opacity: 1; pointer-events: auto; outline: 1px solid var(--accent); border-radius: 2px; }
+
+  /* ---- CURSOR RING ---- */
+  #cursor-ring {
+    position: fixed; top: 0; left: 0;
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    opacity: 0;
+    transition: opacity 300ms ease, width 200ms ease, height 200ms ease;
+    will-change: transform;
+  }
+  #cursor-ring.visible { opacity: 0.45; }
+  #cursor-ring.on-link { width: 44px; height: 44px; opacity: 0.25; }
+
+  /* ---- EASTER EGG TERMINAL ---- */
+  .term-easter {
+    position: fixed; inset: 0;
+    background: oklch(0 0 0 / 0.72);
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+  .term-easter.open { opacity: 1; pointer-events: auto; }
+  .term-win {
+    width: 100%; max-width: 680px; max-height: 82vh;
+    background: oklch(0.11 0.008 240);
+    border: 1px solid oklch(0.24 0.01 240);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 48px 120px -16px oklch(0 0 0 / 0.85), 0 0 0 1px oklch(0.24 0.01 240);
+    transform: scale(0.96) translateY(14px);
+    transition: transform 200ms cubic-bezier(.2,.6,.2,1);
+  }
+  .term-easter.open .term-win { transform: scale(1) translateY(0); }
+  .term-titlebar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    background: oklch(0.14 0.008 240);
+    border-bottom: 1px solid oklch(0.21 0.01 240);
+    flex-shrink: 0;
+  }
+  .term-titlebar .dots { display: inline-flex; gap: 5px; }
+  .term-titlebar .dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+  .term-titlebar .dots i:nth-child(1) { background: oklch(0.72 0.16 30); }
+  .term-titlebar .dots i:nth-child(2) { background: oklch(0.78 0.13 90); }
+  .term-titlebar .dots i:nth-child(3) { background: oklch(0.7 0.13 145); }
+  .term-titlebar .ttl {
+    flex: 1; text-align: center;
+    font-family: var(--mono); font-size: 11px;
+    color: oklch(0.42 0.01 240); letter-spacing: 0.04em;
+  }
+  .term-body {
+    flex: 1; overflow-y: auto;
+    padding: 14px 18px;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.7;
+    color: oklch(0.78 0.01 240);
+    display: flex; flex-direction: column;
+    min-height: 0;
+  }
+  .term-output { flex: 1; }
+  .term-line { white-space: pre-wrap; word-break: break-all; }
+  .term-line.cmd { color: oklch(0.92 0.01 90); }
+  .term-line.cmd::before { content: attr(data-prompt); color: var(--accent); }
+  .term-line.out { color: oklch(0.68 0.008 240); }
+  .term-line.acc { color: var(--accent); }
+  .term-line.err { color: oklch(0.72 0.18 30); }
+  .term-line.ok  { color: var(--accent); font-weight: 600; }
+  .term-line.dim { color: oklch(0.38 0.008 240); }
+  .term-prompt-row {
+    display: flex; align-items: center;
+    margin-top: 6px; flex-shrink: 0;
+  }
+  .term-prompt-pfx {
+    color: var(--accent); font-family: var(--mono); font-size: 12.5px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .term-input-field {
+    flex: 1; background: transparent; border: none; outline: none;
+    font-family: var(--mono); font-size: 12.5px;
+    color: oklch(0.92 0.01 90); caret-color: var(--accent);
+    padding: 0; margin: 0;
+  }
+  .term-footer-hint {
+    padding: 6px 18px;
+    font-family: var(--mono); font-size: 10px;
+    color: oklch(0.32 0.008 240);
+    border-top: 1px solid oklch(0.20 0.01 240);
+    background: oklch(0.13 0.008 240);
+    flex-shrink: 0; letter-spacing: 0.04em;
+  }
+  .term-footer-hint kbd {
+    font-family: var(--mono); font-size: 10px;
+    border: 1px solid oklch(0.28 0.01 240);
+    padding: 1px 4px; border-radius: 3px; margin-right: 2px;
+  }
+
   /* prevent FOIT flash */
   html.no-theme * { transition: none !important; }
 </style>
@@ -1243,6 +1375,7 @@
 <header class="bar" data-screen-label="00 Top bar">
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <div class="bar-inner">
+    <span class="bar-clock" id="dublinClock" aria-label="Current time in Dublin" aria-live="polite"></span>
     <a class="brand" href="#top"><span class="prompt">$</span>hussein.motiwala</a>
     <nav aria-label="Sections" class="nav-desktop">
       <a href="#about">about</a>
@@ -1283,8 +1416,8 @@
         <div class="reveal">
           <div class="status">
             <span class="pulse" aria-hidden="true"></span>
-            <span class="full"><strong>Available full-time</strong> · June 2026 · Dublin, Ireland</span>
-            <span class="short"><strong>Available</strong> · Jun 2026 · Dublin</span>
+            <span class="full"><strong>Open to work</strong> · Dublin, Ireland</span>
+            <span class="short"><strong>Open to work</strong> · Dublin</span>
           </div>
         </div>
         <h1 class="reveal">
@@ -1389,42 +1522,42 @@
         </div>
         <ul class="impact-list">
           <li class="impact">
-            <div class="figure">23 → 5<span class="unit">minutes · 78% faster</span></div>
+            <div class="figure">23 → <span class="js-num" data-to="5">5</span><span class="unit">minutes · 78% faster</span></div>
             <div class="desc">
               Reduced critical financial reporting time by rewriting long-running SQL with parallel-execution hints and optimised data-source selection — eliminating business-of-day delays for downstream banking ops.
               <span class="mech">Java + PL/SQL refactor across the reporting batch chain.</span>
             </div>
           </li>
           <li class="impact">
-            <div class="figure">145M<span class="unit">records processed · +43% throughput</span></div>
+            <div class="figure"><span class="js-num" data-to="145">145</span>M<span class="unit">records processed · +43% throughput</span></div>
             <div class="desc">
               Architected partition-wise data processing using 64-way hash partitioning and parallel DML across 8+ source tables — improved batch performance by 43% on the highest-volume jobs.
               <span class="mech">Oracle DB tuning, partition keys, parallel hints.</span>
             </div>
           </li>
           <li class="impact">
-            <div class="figure">33.7M<span class="unit">rows / batch · audit 2 wk → 3 days</span></div>
+            <div class="figure"><span class="js-num" data-to="33.7" data-dec="1">33.7</span>M<span class="unit">rows / batch · audit 2 wk → 3 days</span></div>
             <div class="desc">
               Designed a PL/SQL reporting engine processing 33.7M records across multiple banking channels — cutting audit cycle time from two weeks to three days for compliance reviews.
               <span class="mech">PL/SQL packages, materialised views, channel-aware aggregations.</span>
             </div>
           </li>
           <li class="impact">
-            <div class="figure">−65%<span class="unit">production incidents</span></div>
+            <div class="figure">−<span class="js-num" data-to="65">65</span>%<span class="unit">production incidents</span></div>
             <div class="desc">
               Built a proactive monitoring and alerting framework targeting 80+ failure patterns alongside Java optimisations — cut production incidents by 65% across core banking modules.
               <span class="mech">Pattern-based alerting + Java-side defensive fixes.</span>
             </div>
           </li>
           <li class="impact">
-            <div class="figure">100%<span class="unit">recovery automation</span></div>
+            <div class="figure"><span class="js-num" data-to="100">100</span>%<span class="unit">recovery automation</span></div>
             <div class="desc">
               Engineered an automated SQL/Bash file-processing recovery system that detects, retries, and logs failures end-to-end — eliminating manual intervention for hundreds of monthly transactions across batch pipelines.
               <span class="mech">Bash orchestration + SQL transaction recovery + structured logging.</span>
             </div>
           </li>
           <li class="impact">
-            <div class="figure">60+<span class="unit">java fixes shipped</span></div>
+            <div class="figure"><span class="js-num" data-to="60">60</span>+<span class="unit">java fixes shipped</span></div>
             <div class="desc">
               Shipped 60+ Java code fixes and architectural improvements across core banking modules used by tens of thousands of branches — spread across multiple production releases.
               <span class="mech">Bug fixes, refactors, defensive guards, performance patches.</span>
@@ -1450,7 +1583,7 @@
         </div>
         <ul class="impact-list">
           <li class="impact">
-            <div class="figure">team of 6<span class="unit">developers led</span></div>
+            <div class="figure">team of <span class="js-num" data-to="6">6</span><span class="unit">developers led</span></div>
             <div class="desc">
               Led a team of 6 developers to design, build, and ship a production React website — coordinating delivery milestones, code reviews, and feature updates with external stakeholders end-to-end.
               <span class="mech">Frontend lead role: architecture, sprint planning, stakeholder syncs.</span>
@@ -1805,7 +1938,6 @@
       <h3>Let's build something solid.</h3>
       <div class="signals">
         <span class="signal"><span class="icon"></span>Open to roles</span>
-        <span class="signal"><span class="icon"></span>Available <b>Jun 2026</b></span>
         <span class="signal"><span class="icon"></span>Stamp 1G eligible <b>Sep 2026</b></span>
         <span class="signal"><span class="icon"></span>Based in Dublin</span>
       </div>
@@ -1825,6 +1957,26 @@
   <div>© 2026 Hussein Motiwala. Built with HTML &amp; CSS — no frameworks.</div>
   <div><a href="#top">back to top ↑</a></div>
 </footer>
+
+<!-- EASTER EGG TERMINAL -->
+<div class="term-easter" id="termEaster" role="dialog" aria-modal="true" aria-label="Secret terminal">
+  <div class="term-win" id="termWin">
+    <div class="term-titlebar">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="ttl">hussein@portfolio — bash — 80×24</span>
+    </div>
+    <div class="term-body" id="termBody">
+      <div class="term-output" id="termOutput"></div>
+      <div class="term-prompt-row">
+        <span class="term-prompt-pfx" id="termPromptPfx">hussein@portfolio:~$ </span>
+        <input class="term-input-field" id="termInput" type="text"
+               autocomplete="off" spellcheck="false"
+               autocorrect="off" autocapitalize="off" />
+      </div>
+    </div>
+    <div class="term-footer-hint"><kbd>esc</kbd> or <kbd>\</kbd> to exit &nbsp;·&nbsp; <kbd>↑↓</kbd> history &nbsp;·&nbsp; try: <span style="color:var(--accent)">help</span></div>
+  </div>
+</div>
 
 <!-- COMMAND PALETTE -->
 <div class="cmd-overlay" id="cmdOverlay" role="dialog" aria-modal="true" aria-label="Command palette">
@@ -2051,6 +2203,7 @@
       { group: 'navigate', icon: '//', label: 'contact',    action: function () { navTo('#contact'); } },
       { group: 'actions',  icon: '$',  label: 'toggle theme', action: function () { document.getElementById('themeToggle').click(); } },
       { group: 'actions',  icon: '$',  label: 'copy email',   action: function () { document.querySelector('a[href^="mailto:"]').click(); } },
+      { group: 'actions',  icon: '$',  label: 'hire hussein', action: function () { window._openTerminal && window._openTerminal(); } },
     ];
 
     function navTo(hash) {
@@ -2224,6 +2377,516 @@
           document.body.appendChild(ta); ta.select();
           document.execCommand('copy'); document.body.removeChild(ta);
           onCopied();
+        }
+      });
+    });
+  })();
+
+  // ---- EASTER EGG TERMINAL ----
+  (function () {
+    var overlay  = document.getElementById('termEaster');
+    var termWin  = document.getElementById('termWin');
+    var output   = document.getElementById('termOutput');
+    var input    = document.getElementById('termInput');
+    var body     = document.getElementById('termBody');
+    var promptEl = document.getElementById('termPromptPfx');
+    if (!overlay || !output || !input) return;
+
+    var cmdHistory = [], histIdx = -1, isOpen = false;
+    var cwd = []; // [] = home (~), ['projects'] = ~/projects
+
+    // ── Virtual filesystem ────────────────────────────────────────
+    var FS = {
+      type: 'dir',
+      children: {
+        'README.md': { type: 'file', lines: [
+          '# hussein.motiwala',
+          '',
+          'Backend engineer · Java · SQL · Python',
+          'Dublin, Ireland · Open to work',
+          '',
+          'type "help" for commands, "ls" to explore.',
+        ]},
+        'about.txt': { type: 'file', lines: [
+          'I write backend code for systems that can\'t fail quietly.',
+          'At Oracle Financial Services, my code ran inside core banking',
+          'platforms used by tens of thousands of branches.',
+          '',
+          'I think in data flow, indexes, and partition keys first;',
+          'framework choices second. Most performance wins come from',
+          'doing less work, not better tooling.',
+        ]},
+        'resume.txt': { type: 'file', lines: [
+          '══ HUSSEIN MOTIWALA ════════════════════════════',
+          'Backend Engineer · Java · SQL · Python',
+          '',
+          'EXPERIENCE',
+          '  2023–2025  Software Engineer · Oracle Financial Services',
+          '             78% faster reporting (23 min → 5 min)',
+          '             145M records/batch · +43% throughput',
+          '             65% fewer incidents · 100% recovery automation',
+          '  2021–2022  Software Engineer · Sahyadri Foundation',
+          '             Led team of 6 developers',
+          '',
+          'EDUCATION',
+          '  2025–2026  MSc Business Analytics · UCD Dublin',
+          '  2019–2023  BEng CS · KJ Somaiya · CGPA 9.69/10 (1:1)',
+          '',
+          '── type "hire hussein" to make this official ──',
+        ]},
+        'contact.txt': { type: 'file', lines: [
+          'email    motiwalahussein@gmail.com',
+          'github   github.com/hussein-hub',
+          'linkedin linkedin.com/in/hussein-motiwala',
+          'location Dublin, Ireland',
+        ]},
+        'projects': { type: 'dir', children: {
+          'db-delta.md': { type: 'file', lines: [
+            '# db-delta  (python · 2025)',
+            '',
+            'A "git diff for databases" — schema, row, and statistical',
+            'differences at terabyte scale. SQL-native computation.',
+            '',
+            'Stack  Python · SQL · Snowflake · PostgreSQL · MySQL',
+            'Repo   github.com/hussein-hub/db-delta',
+          ]},
+          'url-shortener.md': { type: 'file', lines: [
+            '# url-shortener  (java · 2026)',
+            '',
+            'Scalable URL shortener with click analytics, custom aliases,',
+            'REST APIs. PostgreSQL via Supabase, deployed on Render.',
+            '',
+            'Stack  Java · Spring Boot · PostgreSQL · Supabase',
+            'Demo   url-shortener-bvrg.onrender.com',
+          ]},
+          'void.md': { type: 'file', lines: [
+            '# void  (typescript · 2025)',
+            '',
+            'Cloud-native deploy platform — 80% faster deploys on OCI.',
+            'Custom CLI, WebSocket build feedback.',
+            '',
+            'Stack  Next.js · TypeScript · OCI · Docker · WebSockets',
+            'Repo   github.com/Winter-Soren/void',
+          ]},
+          'edumate.md': { type: 'file', lines: [
+            '# edumate  (python · 2023)',
+            '',
+            'Education platform with face-recognition attendance at 95%',
+            'accuracy. Reduced marking time by 80%.',
+            '',
+            'Stack  Python · Django · TensorFlow · Keras · OpenCV',
+          ]},
+          'panacea.md': { type: 'file', lines: [
+            '# panacea  (python · 2022)',
+            '',
+            'ML-powered disease risk assessment — 80% accuracy on lung,',
+            'kidney, and heart models. Geolocation specialist search.',
+            '',
+            'Stack  Python · Django · ML · JavaScript',
+          ]},
+        }},
+        'experience': { type: 'dir', children: {
+          'oracle.md': { type: 'file', lines: [
+            'Software Engineer · Oracle Financial Services',
+            'Mumbai, India · 2023–2025  (2 yr 2 mo)',
+            '',
+            'Stack  Java · PL/SQL · Oracle DB · Bash · Hibernate · JUnit',
+            '',
+            '  78%  faster financial reporting  (23 min → 5 min)',
+            ' 145M  records processed per batch  (+43% throughput)',
+            '  65%  reduction in production incidents',
+            ' 100%  automated file-processing recovery',
+            '  60+  Java fixes shipped across core banking',
+          ]},
+          'sahyadri.md': { type: 'file', lines: [
+            'Software Engineer · Sahyadri Foundation',
+            'Mumbai, India · 2021–2022  (12 mo)',
+            '',
+            'Stack  React · JavaScript · Node.js',
+            '',
+            '  Led a team of 6 to design, build, and ship a production website.',
+          ]},
+        }},
+        'skills': { type: 'dir', children: {
+          'stack.md': { type: 'file', lines: [
+            'LANGUAGES',
+            '  Java ██████████  Python █████████  SQL █████████',
+            '  PL/SQL █████████  Bash ███████  TypeScript ███████',
+            '',
+            'BACKEND & DATA',
+            '  Oracle DB  PostgreSQL  REST APIs  Microservices',
+            '  Hibernate  Maven  Apache Airflow  Snowflake  Kafka',
+            '',
+            'CLOUD & DEVOPS',
+            '  Git  Linux  JUnit  Docker  AWS (EC2, S3)  CI/CD',
+          ]},
+        }},
+        'education': { type: 'dir', children: {
+          'degrees.md': { type: 'file', lines: [
+            '2025–2026  MSc Business Analytics',
+            '           UCD Michael Smurfit Graduate Business School',
+            '           Dublin, Ireland  (current)',
+            '',
+            '2019–2023  BEng Computer Science  ·  CGPA 9.69/10  (1:1)',
+            '           KJ Somaiya College of Engineering, Mumbai University',
+            '',
+            '2021       Peer-reviewed publication · IJRESM Vol 6 Issue 5',
+            '           Face detection attendance system',
+          ]},
+        }},
+      }
+    };
+
+    // ── Path helpers ──────────────────────────────────────────────
+    function getCwdNode() {
+      var node = FS;
+      for (var i = 0; i < cwd.length; i++) {
+        if (!node.children || !node.children[cwd[i]]) return null;
+        node = node.children[cwd[i]];
+      }
+      return node;
+    }
+
+    function getPwd() {
+      return cwd.length ? '~/' + cwd.join('/') : '~';
+    }
+
+    function getPrompt() {
+      return 'hussein@portfolio:' + getPwd() + '$ ';
+    }
+
+    function syncPrompt() {
+      if (promptEl) promptEl.textContent = getPrompt();
+    }
+
+    // ── Output helpers ────────────────────────────────────────────
+    function scrollBottom() { body.scrollTop = body.scrollHeight; }
+
+    function print(cls, text) {
+      var d = document.createElement('div');
+      d.className = 'term-line' + (cls ? ' ' + cls : '');
+      d.textContent = text;
+      output.appendChild(d);
+      scrollBottom();
+    }
+
+    function printCmd(raw) {
+      var d = document.createElement('div');
+      d.className = 'term-line cmd';
+      d.setAttribute('data-prompt', getPrompt());
+      d.textContent = raw;
+      output.appendChild(d);
+      scrollBottom();
+    }
+
+    function printH(cls, html) {
+      var d = document.createElement('div');
+      d.className = 'term-line' + (cls ? ' ' + cls : '');
+      d.innerHTML = html;
+      output.appendChild(d);
+      scrollBottom();
+    }
+
+    // ── Commands ──────────────────────────────────────────────────
+    function cmdHelp() {
+      print('acc', 'available commands');
+      print('dim', '──────────────────────────────────────────────');
+      [['ls [-la]','list directory'],['cd <dir>','change directory  (cd .. to go up, cd ~ for home'],
+       ['cat <file>','read file'],['pwd','print working directory'],['whoami','print identity'],
+       ['echo <text>','print text'],['date','current Dublin time'],['git log','commit history'],
+       ['open github','open github profile'],['open linkedin','open linkedin profile'],
+       ['hire hussein','???'],['clear','clear terminal'],['exit','close terminal'],
+      ].forEach(function (r) {
+        printH('out', '<span style="color:var(--accent);display:inline-block;min-width:175px">' + r[0] + '</span>' + r[1]);
+      });
+    }
+
+    function cmdLs(args) {
+      var node = getCwdNode();
+      if (!node || node.type !== 'dir') { print('err', 'not a directory'); return; }
+      var names = Object.keys(node.children);
+      if (!names.length) { print('dim', '(empty)'); return; }
+      var long = args.some(function (a) { return /^-[la]{1,2}$/.test(a); });
+      if (long) {
+        print('dim', 'total ' + names.length);
+        names.forEach(function (name) {
+          var isDir = node.children[name].type === 'dir';
+          printH('out',
+            '<span style="color:var(--ink-faint)">' + (isDir ? 'drwxr-xr-x' : '-rw-r--r--') + '</span>' +
+            '  hussein  hussein  Apr 2026  ' +
+            (isDir ? '<span style="color:var(--accent)">' + name + '/</span>' : name));
+        });
+      } else {
+        var dirs  = names.filter(function (n) { return node.children[n].type === 'dir'; });
+        var files = names.filter(function (n) { return node.children[n].type === 'file'; });
+        if (dirs.length)  printH('acc',  dirs.map(function (n) { return '<span style="display:inline-block;min-width:160px">' + n + '/</span>'; }).join(''));
+        if (files.length) printH('out', files.map(function (n) { return '<span style="display:inline-block;min-width:160px">' + n + '</span>'; }).join(''));
+      }
+    }
+
+    function cmdCd(args) {
+      var target = args[0] || '';
+      if (!target || target === '~') { cwd = []; syncPrompt(); return; }
+      if (target === '..') { if (cwd.length) cwd = cwd.slice(0, -1); syncPrompt(); return; }
+      if (target.charAt(0) === '~') {
+        cwd = []; target = target.replace(/^~\/?/, '');
+        if (!target) { syncPrompt(); return; }
+      }
+      var node = getCwdNode();
+      if (!node || !node.children || !node.children[target]) {
+        print('err', 'cd: ' + target + ': no such file or directory'); return;
+      }
+      if (node.children[target].type !== 'dir') {
+        print('err', 'cd: ' + target + ': not a directory'); return;
+      }
+      cwd = cwd.concat([target]); syncPrompt();
+    }
+
+    function cmdCat(args) {
+      if (!args.length) { print('err', 'usage: cat <file>'); return; }
+      var name = args[0];
+      var node = getCwdNode();
+      if (!node || !node.children || !node.children[name]) {
+        print('err', 'cat: ' + name + ': no such file or directory'); return;
+      }
+      if (node.children[name].type === 'dir') {
+        print('err', 'cat: ' + name + ': is a directory'); return;
+      }
+      node.children[name].lines.forEach(function (l) { print('out', l); });
+    }
+
+    function cmdHire() {
+      print('', '');
+      var frames = ['[    ]','[=   ]','[==  ]','[=== ]','[====]','[ ===]','[  ==]','[   =]'];
+      var fi = 0;
+      var loader = document.createElement('div');
+      loader.className = 'term-line acc';
+      loader.textContent = 'processing application... ' + frames[0];
+      output.appendChild(loader); scrollBottom();
+      var iv = setInterval(function () { fi = (fi + 1) % frames.length; loader.textContent = 'processing application... ' + frames[fi]; }, 70);
+      setTimeout(function () {
+        clearInterval(iv); loader.textContent = 'application approved.';
+        setTimeout(function () {
+          print('ok', '  ✓  great choice.');
+          print('ok', '  ✓  email copied to clipboard.');
+          print('', ''); print('dim', '     motiwalahussein@gmail.com'); print('', '');
+          print('dim', '  [ I look forward to hearing from you ]');
+          if (navigator.clipboard) navigator.clipboard.writeText('motiwalahussein@gmail.com').catch(function(){});
+        }, 400);
+      }, 1600);
+    }
+
+    // ── Dispatcher ────────────────────────────────────────────────
+    function run(raw) {
+      var cmd = raw.trim();
+      if (!cmd) return;
+      printCmd(cmd);
+      var parts = cmd.split(/\s+/), verb = parts[0].toLowerCase(), args = parts.slice(1), full = cmd.toLowerCase();
+
+      if      (verb === 'ls')                                { cmdLs(args); }
+      else if (verb === 'cd')                                { cmdCd(args); }
+      else if (verb === 'cat')                               { cmdCat(args); }
+      else if (verb === 'pwd')                               { print('out', '/home/' + getPwd().replace('~', 'hussein')); }
+      else if (verb === 'whoami')                            { print('out', 'hussein'); }
+      else if (verb === 'clear')                             { output.innerHTML = ''; }
+      else if (verb === 'exit')                              { print('out', 'logout'); setTimeout(close, 280); }
+      else if (verb === 'help')                              { cmdHelp(); }
+      else if (verb === 'echo')                              { print('out', args.join(' ')); }
+      else if (full === 'hire hussein' || full === 'sudo hire hussein') { cmdHire(); }
+      else if (verb === 'date')                              {
+        print('out', new Date().toLocaleString('en-IE', { timeZone: 'Europe/Dublin', weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST');
+      }
+      else if (full === 'git log') {
+        [['acc','commit a1b2c3d  (HEAD -> main, origin/main)'],['out','Author: Hussein Motiwala <motiwalahussein@gmail.com>'],['out','Date:   Apr 2026'],['out',''],['out','    feat: ship portfolio v2 — terminal, animations, dark mode'],['out',''],['acc','commit e4f5g6h'],['out','Date:   Mar 2026'],['out',''],['out','    feat: animated impact metrics & bidirectional scroll reveal'],['out',''],['acc','commit i7j8k9l'],['out','Date:   Feb 2026'],['out',''],['out','    init: portfolio — single file, zero frameworks']].forEach(function(r){ print(r[0],r[1]); });
+      }
+      else if (full === 'git status')  { print('out', 'On branch main'); print('dim', 'nothing to commit, working tree clean'); }
+      else if (full === 'open github') { print('out', 'opening github.com/hussein-hub...'); setTimeout(function(){ window.open('https://github.com/hussein-hub','_blank'); },300); }
+      else if (full === 'open linkedin'){ print('out', 'opening linkedin.com/in/hussein-motiwala...'); setTimeout(function(){ window.open('https://www.linkedin.com/in/hussein-motiwala','_blank'); },300); }
+      else if (full === 'theme toggle') { document.getElementById('themeToggle').click(); print('out', 'theme toggled.'); }
+      else if (verb === 'sudo')        { print('err', 'sudo: permission denied. nice try.'); }
+      else if (verb === 'rm' || verb === 'mkdir' || verb === 'touch') { print('err', verb + ': read-only filesystem.'); }
+      else if (verb === 'vim' || verb === 'nano' || verb === 'emacs') { print('err', verb + ': not installed. try cat instead.'); }
+      else { print('err', verb + ': command not found. type "help"'); }
+    }
+
+    // ── Open / close ──────────────────────────────────────────────
+    function open() {
+      if (isOpen) return;
+      isOpen = true; cwd = []; syncPrompt();
+      overlay.classList.add('open');
+      output.innerHTML = '';
+      print('acc', 'hussein.motiwala — interactive terminal');
+      print('dim', '────────────────────────────────────────────');
+      print('', '');
+      setTimeout(function () { input.focus(); }, 40);
+    }
+
+    function close() {
+      isOpen = false;
+      overlay.classList.remove('open');
+      input.blur();
+    }
+
+    window._openTerminal = open;
+
+    // ── Input ─────────────────────────────────────────────────────
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var val = input.value;
+        if (val.trim()) { cmdHistory.unshift(val); histIdx = -1; }
+        input.value = ''; run(val);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (histIdx < cmdHistory.length - 1) { histIdx++; input.value = cmdHistory[histIdx]; }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (histIdx > 0) { histIdx--; input.value = cmdHistory[histIdx]; }
+        else { histIdx = -1; input.value = ''; }
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        var parts = input.value.split(/\s+/), verb = parts[0].toLowerCase(), partial = parts[1] || '';
+        if ((verb === 'cd' || verb === 'ls' || verb === 'cat') && parts.length <= 2) {
+          var node = getCwdNode();
+          if (node && node.children) {
+            var matches = Object.keys(node.children).filter(function (k) { return k.indexOf(partial) === 0; });
+            if (matches.length === 1) input.value = verb + ' ' + matches[0] + (node.children[matches[0]].type === 'dir' ? '/' : '');
+          }
+        }
+      }
+    });
+
+    overlay.addEventListener('click', function (e) { if (!termWin.contains(e.target)) close(); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '\\' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        var tag = document.activeElement && document.activeElement.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        e.preventDefault(); isOpen ? close() : open(); return;
+      }
+      if (isOpen && e.key === 'Escape') { e.preventDefault(); close(); }
+    });
+  })();
+
+  // ---- ANIMATED COUNTERS ----
+  (function () {
+    var nums = document.querySelectorAll('.js-num');
+    if (!nums.length || !('IntersectionObserver' in window)) return;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function animateNum(el) {
+      var to  = parseFloat(el.dataset.to);
+      var dec = parseInt(el.dataset.dec || '0', 10);
+      if (reduced) { el.textContent = to.toFixed(dec); return; }
+      var start = null, dur = 4400;
+      function ease(t) { return 1 - Math.pow(1 - t, 3); } // cubic ease-out
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        el.textContent = (to * ease(p)).toFixed(dec);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = to.toFixed(dec);
+      }
+      requestAnimationFrame(step);
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) animateNum(entry.target);
+        else {
+          var el = entry.target;
+          el.textContent = '0';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    nums.forEach(function (el) {
+      el.textContent = '0';
+      io.observe(el);
+    });
+  })();
+
+  // ---- DUBLIN CLOCK ----
+  (function () {
+    var el = document.getElementById('dublinClock');
+    if (!el) return;
+    function tick() {
+      var now = new Date(), tz = { timeZone: 'Europe/Dublin' };
+      var wd  = now.toLocaleDateString('en-IE', Object.assign({ weekday: 'short' }, tz));
+      var d   = now.toLocaleDateString('en-IE', Object.assign({ day: 'numeric'   }, tz));
+      var mo  = now.toLocaleDateString('en-IE', Object.assign({ month: 'short'   }, tz));
+      var t   = now.toLocaleTimeString('en-IE', Object.assign({ hour: '2-digit', minute: '2-digit', hour12: false }, tz));
+      el.innerHTML = '<span class="clk-date">' + wd + ' ' + d + ' ' + mo + '</span>'
+                   + '<span class="clk-time">' + t + '</span>';
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // ---- CURSOR RING ----
+  (function () {
+    if ('ontouchstart' in window) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ring = document.createElement('div');
+    ring.id = 'cursor-ring';
+    document.body.appendChild(ring);
+
+    var cx = 0, cy = 0, tx = 0, ty = 0, visible = false;
+
+    document.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!visible) { cx = tx; cy = ty; visible = true; ring.classList.add('visible'); }
+      var el = document.elementFromPoint(e.clientX, e.clientY);
+      ring.classList.toggle('on-link', !!(el && el.closest('a, button, [role="button"], input, label')));
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', function () {
+      ring.classList.remove('visible'); visible = false;
+    });
+
+    function tick() {
+      if (visible) {
+        cx += (tx - cx) * 0.12;
+        cy += (ty - cy) * 0.12;
+        var half = ring.classList.contains('on-link') ? 22 : 14;
+        ring.style.transform = 'translate(' + (cx - half) + 'px, ' + (cy - half) + 'px)';
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  // ---- COPY LINK TO SECTION ----
+  (function () {
+    var asides = document.querySelectorAll('.col-aside');
+    asides.forEach(function (aside) {
+      var section = aside.closest('section');
+      if (!section || !section.id) return;
+      var titleEl = aside.querySelector('.title');
+      if (!titleEl) return;
+      var btn = document.createElement('button');
+      btn.className = 'copy-anchor';
+      btn.setAttribute('aria-label', 'Copy link to section');
+      btn.textContent = '#';
+      titleEl.appendChild(btn);
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var url = location.origin + location.pathname + '#' + section.id;
+        var orig = btn.textContent;
+        function copied() {
+          btn.textContent = '✓';
+          setTimeout(function () { btn.textContent = orig; }, 1800);
+        }
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(url).then(copied).catch(function () {
+            btn.textContent = '✓'; setTimeout(function () { btn.textContent = orig; }, 1800);
+          });
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = url; ta.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy'); document.body.removeChild(ta);
+          copied();
         }
       });
     });
