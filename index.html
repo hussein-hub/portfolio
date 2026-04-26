@@ -670,9 +670,25 @@
     align-items: baseline;
     gap: 24px;
     padding: 14px 0;
-    border-top: 1px solid var(--ink);
+    border-top: none;
     border-bottom: 1px dashed var(--rule);
     margin-bottom: 4px;
+    position: relative;
+  }
+  .dossier-head::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 700ms cubic-bezier(.2,.6,.2,1);
+  }
+  .dossier-card.in .dossier-head::before { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .dossier-head::before { transition: none; transform: scaleX(1); }
   }
   .dossier-title h3 {
     font-size: 16px;
@@ -818,6 +834,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
   .proj:hover { border-color: var(--accent); transform: translateY(-2px); }
   .proj .term-head {
@@ -884,6 +901,32 @@
   .proj-actions a .arrow { color: var(--ink-faint); margin-left: 4px; }
   .proj-actions a:hover .arrow { color: var(--accent); }
 
+  /* ---- PROJECT CODE PREVIEW ---- */
+  .proj-code {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: oklch(0.12 0.008 240 / 0.97);
+    border-top: 1px solid oklch(0.24 0.01 240);
+    transform: translateY(101%);
+    transition: transform 270ms cubic-bezier(.2,.6,.2,1);
+    padding: 10px 16px 14px;
+    font-size: 10.5px;
+    line-height: 1.6;
+    color: oklch(0.65 0.008 240);
+    font-family: var(--mono);
+    pointer-events: none;
+    white-space: pre;
+  }
+  .proj:hover .proj-code { transform: translateY(0); }
+  .proj-code .ck { color: oklch(0.70 0.13 270); }
+  .proj-code .cf { color: oklch(0.78 0.12 200); }
+  .proj-code .cs { color: oklch(0.74 0.10 90);  }
+  .proj-code .cc { color: oklch(0.38 0.008 240); }
+  .proj-code .cn { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) {
+    .proj-code { transform: translateY(0); opacity: 0.85; }
+  }
+
   /* ---- SKILLS ---- */
   .skills-grid-wrap {
     display: grid;
@@ -932,14 +975,18 @@
     font-variant-numeric: tabular-nums;
   }
   .skill-row .blocks .off { color: var(--rule); }
-  .skill-row .blocks {
-    opacity: 0;
-    transition: opacity 500ms ease;
+  .skill-row .blocks .on {
+    display: inline-block;
+    overflow: hidden;
+    max-width: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: max-width 2400ms cubic-bezier(.1,.0,.3,1);
   }
-  .skill-row.in .blocks { opacity: 1; }
+  .skill-row.in .blocks .on { max-width: 200px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .skill-row .blocks { transition: none; }
+    .skill-row .blocks .on { transition: none; max-width: 200px; }
   }
   .skill-cluster .cluster-label {
     font-size: 11px;
@@ -1420,7 +1467,7 @@
             <span class="short"><strong>Open to work</strong> · Dublin</span>
           </div>
         </div>
-        <h1 class="reveal">
+        <h1 id="heroH1">
           Backend engineer building
           <span class="accent">high-availability</span> systems
           in <span class="accent">Java</span> and <span class="accent">SQL</span>.
@@ -1455,6 +1502,7 @@
           </div>
           <div class="meta-foot">
             <span>session: open · <span class="hl">accepting offers</span></span>
+            <span id="sessionUptime" style="color:var(--ink-faint);font-size:10px;font-variant-numeric:tabular-nums;letter-spacing:0.03em">00:00:00</span>
             <span class="blink">▍</span>
           </div>
         </dl>
@@ -1623,6 +1671,10 @@
         <a href="https://github.com/hussein-hub/db-delta" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
+      <div class="proj-code"><span class="ck">def</span> <span class="cf">compare</span>(src, tgt, dialect):
+  q = <span class="cf">gen_diff_query</span>(src, tgt)
+  rows = db.execute(q).fetchall()
+  <span class="ck">return</span> Delta(schema=rows, data=rows)</div>
     </article>
 
     <article class="proj reveal">
@@ -1642,6 +1694,12 @@
         <a href="https://url-shortener-bvrg.onrender.com/" target="_blank" rel="noopener">live demo <span class="arrow">↗</span></a>
       </div>
       </div>
+      <div class="proj-code"><span class="ck">@PostMapping</span>(<span class="cs">"/shorten"</span>)
+<span class="ck">public</span> String shorten(Url u) {
+  String key = hashSvc.encode(u);
+  repo.save(<span class="ck">new</span> ShortUrl(key, u.url));
+  <span class="ck">return</span> baseUrl + <span class="cs">"/"</span> + key;
+}</div>
     </article>
 
     <article class="proj reveal">
@@ -1660,6 +1718,12 @@
         <a href="https://github.com/Winter-Soren/void" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
+      <div class="proj-code"><span class="ck">async function</span> <span class="cf">deploy</span>(cfg: Config) {
+  <span class="ck">const</span> inst = <span class="ck">await</span> oci.create(cfg);
+  ws.emit(<span class="cs">'build'</span>, { status: <span class="cs">'running'</span> });
+  <span class="ck">await</span> docker.build(cfg.image);
+  <span class="ck">return</span> { url: inst.endpoint };
+}</div>
     </article>
 
     <article class="proj reveal">
@@ -1678,6 +1742,11 @@
         <a href="https://github.com/hussein-hub/Edumate" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
+      <div class="proj-code"><span class="ck">def</span> <span class="cf">mark_attendance</span>(frame):
+  faces = detector.detect(frame)
+  <span class="ck">for</span> face <span class="ck">in</span> faces:
+    fid = recognizer.predict(face)
+    db.mark(fid, datetime.now())</div>
     </article>
 
     <article class="proj reveal">
@@ -1696,6 +1765,11 @@
         <a href="https://github.com/Panacea-4-U/Modular-Panacea" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
+      <div class="proj-code"><span class="ck">def</span> <span class="cf">predict_risk</span>(data):
+  X = preprocess(data)
+  risk = model.predict_proba(X)[<span class="cn">0</span>]
+  docs = find_nearby(data[<span class="cs">'location'</span>])
+  <span class="ck">return</span> {<span class="cs">'risk'</span>: risk, <span class="cs">'docs'</span>: docs}</div>
     </article>
 
     <article class="proj reveal">
@@ -1714,6 +1788,11 @@
         <a href="https://github.com/hussein-hub/Smart-Attendance-System" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
+      <div class="proj-code"><span class="ck">def</span> <span class="cf">recognize</span>(img_path):
+  img = cv2.imread(img_path)
+  gray = cv2.cvtColor(img, GRAY)
+  faces = cascade.detectMultiScale(gray)
+  <span class="ck">return</span> [encode(f) <span class="ck">for</span> f <span class="ck">in</span> faces]</div>
     </article>
       </div>
       </div>
@@ -2777,8 +2856,8 @@
       var to  = parseFloat(el.dataset.to);
       var dec = parseInt(el.dataset.dec || '0', 10);
       if (reduced) { el.textContent = to.toFixed(dec); return; }
-      var start = null, dur = 4400;
-      function ease(t) { return 1 - Math.pow(1 - t, 3); } // cubic ease-out
+      var start = null, dur = 4000;
+      function ease(t) { return 1 - Math.pow(1 - t, 3); }
       function step(ts) {
         if (!start) start = ts;
         var p = Math.min((ts - start) / dur, 1);
@@ -2846,8 +2925,8 @@
 
     function tick() {
       if (visible) {
-        cx += (tx - cx) * 0.12;
-        cy += (ty - cy) * 0.12;
+        cx += (tx - cx) * 0.22;
+        cy += (ty - cy) * 0.22;
         var half = ring.classList.contains('on-link') ? 22 : 14;
         ring.style.transform = 'translate(' + (cx - half) + 'px, ' + (cy - half) + 'px)';
       }
@@ -2890,6 +2969,86 @@
         }
       });
     });
+  })();
+
+  // ---- HERO H1 TYPING ----
+  (function () {
+    var h1 = document.getElementById('heroH1');
+    if (!h1) return;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+
+    var SEGS = [
+      { t: 'Backend engineer building ', a: false },
+      { t: 'high-availability', a: true },
+      { t: ' systems in ', a: false },
+      { t: 'Java', a: true },
+      { t: ' and ', a: false },
+      { t: 'SQL', a: true },
+      { t: '.', a: false }
+    ];
+
+    // Preserve natural height so layout doesn't shift during typing
+    var savedH = h1.offsetHeight;
+    h1.style.minHeight = savedH + 'px';
+
+    var done = [], sIdx = 0, cIdx = 0;
+
+    function buildHTML() {
+      var html = '';
+      done.forEach(function (seg) {
+        html += seg.a ? '<span class="accent">' + seg.t + '</span>' : seg.t;
+      });
+      if (sIdx < SEGS.length) {
+        var partial = SEGS[sIdx].t.slice(0, cIdx);
+        html += SEGS[sIdx].a ? '<span class="accent">' + partial + '</span>' : partial;
+      }
+      html += '<span class="js-caret">▍</span>';
+      return html;
+    }
+
+    function typeNext() {
+      cIdx++;
+      if (cIdx > SEGS[sIdx].t.length) {
+        done.push(SEGS[sIdx]);
+        sIdx++; cIdx = 0;
+        if (sIdx >= SEGS.length) {
+          var html = '';
+          done.forEach(function (seg) {
+            html += seg.a ? '<span class="accent">' + seg.t + '</span>' : seg.t;
+          });
+          h1.innerHTML = html;
+          h1.style.minHeight = '';
+          return;
+        }
+      }
+      h1.innerHTML = buildHTML();
+      var cur = SEGS[sIdx];
+      var delay = cur && cur.a ? 44 + Math.random() * 28 : 30 + Math.random() * 42;
+      setTimeout(typeNext, delay);
+    }
+
+    h1.innerHTML = '<span class="js-caret">▍</span>';
+    setTimeout(typeNext, 700);
+  })();
+
+  // ---- SESSION UPTIME ----
+  (function () {
+    var el = document.getElementById('sessionUptime');
+    if (!el) return;
+    var start = Date.now();
+    function tick() {
+      var s = Math.floor((Date.now() - start) / 1000);
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      el.textContent =
+        (h < 10 ? '0' : '') + h + ':' +
+        (m < 10 ? '0' : '') + m + ':' +
+        (sec < 10 ? '0' : '') + sec;
+    }
+    tick();
+    setInterval(tick, 1000);
   })();
 
   // ---- SMOOTH ANCHORS ----
