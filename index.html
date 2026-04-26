@@ -234,15 +234,22 @@
   }
   .hero .status {
     display: inline-flex; align-items: center; gap: 10px;
-    font-size: 11px; color: var(--ink-soft);
-    border: 1px solid var(--rule);
-    padding: 5px 12px 5px 10px;
+    font-size: 11.5px; color: var(--ink);
+    border: 1px solid color-mix(in oklch, var(--accent) 50%, transparent);
+    background: var(--accent-soft);
+    padding: 6px 14px 6px 12px;
     border-radius: 999px;
     margin-bottom: 24px;
     white-space: nowrap;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 8%, transparent);
+  }
+  .hero .status strong {
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
   @media (max-width: 420px) {
     .hero .status .full { display: none; }
@@ -265,18 +272,85 @@
   .hero .lede { font-size: 14px; color: var(--ink-soft); max-width: none; text-align: justify; hyphens: auto; }
   .hero .meta-row {
     margin-top: 0;
-    display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px;
+    display: block;
     font-size: 12px;
     color: var(--ink-soft);
     border: 1px solid var(--rule);
     border-radius: 8px;
-    padding: 18px 20px;
+    background: var(--bg);
+    overflow: hidden;
+    box-shadow: 0 1px 0 var(--rule), 0 12px 40px -28px color-mix(in oklch, var(--accent) 50%, transparent);
+  }
+  .hero .meta-row .meta-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px dashed var(--rule);
+    background: var(--bg-soft);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .hero .meta-row .meta-head .dots { display: inline-flex; gap: 5px; }
+  .hero .meta-row .meta-head .dots i {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--rule);
+  }
+  .hero .meta-row .meta-head .dots i:nth-child(1) { background: oklch(0.72 0.16 30); }
+  .hero .meta-row .meta-head .dots i:nth-child(2) { background: oklch(0.78 0.13 90); }
+  .hero .meta-row .meta-head .dots i:nth-child(3) { background: oklch(0.7 0.13 145); }
+  .hero .meta-row .meta-head .ttl { color: var(--ink-faint); }
+  .hero .meta-row .meta-head .ttl .accent { color: var(--accent); }
+
+  .hero .meta-row .meta-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px 18px;
+    padding: 16px 18px;
+  }
+  .hero .meta-row dt {
+    color: var(--ink-faint);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    align-self: center;
+  }
+  .hero .meta-row dd {
+    margin: 0;
+    color: var(--ink);
+    font-size: 12.5px;
+    align-self: center;
+  }
+  .hero .meta-row dd .pin {
+    color: var(--accent);
+    margin-right: 6px;
+    opacity: 0.85;
+  }
+  .hero .meta-row a { font-size: 12.5px; }
+  .hero .meta-row dd a { word-break: break-all; }
+  .hero .meta-row .meta-foot {
+    border-top: 1px dashed var(--rule);
+    padding: 8px 14px;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: var(--bg-soft);
   }
-  .hero .meta-row dt { color: var(--ink-faint); }
-  .hero .meta-row dd { margin: 0; color: var(--ink); }
-  .hero .meta-row a { font-size: 12px; }
-  .hero .meta-row dd a { word-break: break-all; }
+  .hero .meta-row .meta-foot .hl {
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .hero .meta-row .meta-foot .blink {
+    color: var(--accent);
+    animation: caret 1.1s step-end infinite;
+  }
+  @keyframes caret {
+    50% { opacity: 0; }
+  }
   .hero-side { display: flex; flex-direction: column; gap: 18px; padding-top: 8px; }
 
   .links {
@@ -699,15 +773,140 @@
     .cert-list .cert-meta { margin-left: 0; flex-basis: 100%; }
   }
 
-  /* ---- PUBLICATION ---- */
+  /* ---- PUBLICATION (academic-paper card) ---- */
   .pub {
-    padding: 22px 0;
-    border-top: 1px solid var(--rule);
+    position: relative;
+    margin-top: 8px;
+    padding: 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--bg);
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 var(--rule),
+      4px 4px 0 -1px var(--bg),
+      4px 4px 0 0 var(--rule),
+      8px 8px 0 -1px var(--bg),
+      8px 8px 0 0 var(--rule);
   }
-  .pub h3 { color: var(--ink); margin-bottom: 6px; }
-  .pub .authors { font-size: 12px; color: var(--ink-soft); margin-bottom: 4px; }
-  .pub .venue { font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; }
-  .pub .venue em { color: var(--ink-soft); font-style: normal; }
+  .pub-stamp {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    transform: rotate(6deg);
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 10px;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 3px;
+    opacity: 0.85;
+    background: var(--bg);
+    z-index: 1;
+  }
+  .pub-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-soft);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+  }
+  .pub-meta .field {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .pub-meta .field b {
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+  .pub-body {
+    padding: 28px 28px 24px;
+    position: relative;
+  }
+  .pub-body::before {
+    content: "";
+    position: absolute;
+    left: 28px; top: 28px; bottom: 24px;
+    width: 2px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+  .pub-body .pub-inner { padding-left: 22px; }
+  .pub h3 {
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+    max-width: 56ch;
+  }
+  .pub .authors {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    letter-spacing: 0.005em;
+  }
+  .pub .authors .me {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .pub .venue {
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+  .pub .venue em { color: var(--ink-soft); font-style: italic; }
+  .pub .abstract-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .pub p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    max-width: 60ch;
+    margin-bottom: 18px;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .pub-actions {
+    display: flex; gap: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule);
+    margin-top: 4px;
+  }
+  .pub-actions a {
+    font-size: 12px;
+    color: var(--accent);
+    border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);
+    padding-bottom: 1px;
+  }
+  .pub-actions .secondary {
+    color: var(--ink-soft);
+    border-color: var(--rule);
+  }
+  @media (max-width: 600px) {
+    .pub { box-shadow: 0 1px 0 var(--rule); }
+    .pub-stamp { display: none; }
+    .pub-body { padding: 22px 18px; }
+    .pub-meta { padding: 12px 18px; gap: 12px; }
+  }
 
   /* ---- CONTACT ---- */
   .contact-card {
@@ -724,8 +923,34 @@
     background: radial-gradient(600px 200px at 100% 0%, var(--accent-soft), transparent 60%);
     pointer-events: none;
   }
-  .contact-card h3 { font-size: 18px; margin-bottom: 8px; position: relative; }
-  .contact-card p { font-size: 13px; max-width: none; position: relative; text-align: justify; hyphens: auto; }
+  .contact-card h3 { font-size: 18px; margin-bottom: 14px; position: relative; }
+  .contact-card .signals {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .contact-card .signal {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);
+    padding: 6px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+  }
+  .contact-card .signal .icon {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 20%, transparent);
+  }
+  .contact-card .signal b {
+    color: var(--accent);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .contact-card p { font-size: 13px; max-width: none; position: relative; text-align: justify; hyphens: auto; color: var(--ink-soft); }
   .contact-card .actions {
     display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; position: relative;
   }
@@ -801,14 +1026,14 @@
         <div class="reveal">
           <div class="status">
             <span class="pulse" aria-hidden="true"></span>
-            <span class="full">Available full-time · June 2026 · Dublin, Ireland</span>
-            <span class="short">Available · Jun 2026 · Dublin</span>
+            <span class="full"><strong>Available full-time</strong> · June 2026 · Dublin, Ireland</span>
+            <span class="short"><strong>Available</strong> · Jun 2026 · Dublin</span>
           </div>
         </div>
         <h1 class="reveal">
-          Backend engineer shipping<br />
-          <span class="accent">high-availability</span> systems<br />
-          across the JVM and beyond.
+          Backend engineer building
+          <span class="accent">high-availability</span> systems
+          in <span class="accent">Java</span> and <span class="accent">SQL</span>.
         </h1>
         <p class="lede reveal">
           I'm Hussein — a backend engineer with 3+ years building production services
@@ -826,10 +1051,22 @@
 
       <aside class="hero-side reveal">
         <dl class="hero-meta meta-row">
-          <dt>location</dt><dd>Dublin, Ireland</dd>
-          <dt>status</dt><dd>Stamp 1G eligible from Sep 2026</dd>
-          <dt>focus</dt><dd>Java · Python · SQL · REST APIs · microservices</dd>
-          <dt>email</dt><dd><a href="mailto:motiwalahussein@gmail.com">motiwalahussein@gmail.com</a></dd>
+          <div class="meta-head">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="ttl"><span class="accent">$</span> whoami --verbose</span>
+          </div>
+          <div class="meta-grid">
+            <dt>name</dt><dd>Hussein Motiwala</dd>
+            <dt>role</dt><dd>Backend Engineer</dd>
+            <dt>location</dt><dd><span class="pin">◆</span>Dublin, Ireland</dd>
+            <dt>status</dt><dd>Stamp 1G eligible · Sep 2026</dd>
+            <dt>focus</dt><dd>Java · Python · SQL · APIs</dd>
+            <dt>email</dt><dd><a href="mailto:motiwalahussein@gmail.com">motiwalahussein@gmail.com</a></dd>
+          </div>
+          <div class="meta-foot">
+            <span>session: open · <span class="hl">accepting offers</span></span>
+            <span class="blink">▍</span>
+          </div>
         </dl>
       </aside>
     </div>
@@ -897,43 +1134,43 @@
           <li class="impact">
             <div class="figure">23 → 5<span class="unit">minutes · 78% faster</span></div>
             <div class="desc">
-              Reduced critical financial reporting time, eliminating business-of-day delays.
-              <span class="mech">Rewrote long-running SQL with parallel-execution hints and optimised data-source selection.</span>
+              Reduced critical financial reporting time by rewriting long-running SQL with parallel-execution hints and optimised data-source selection — eliminating business-of-day delays for downstream banking ops.
+              <span class="mech">Java + PL/SQL refactor across the reporting batch chain.</span>
             </div>
           </li>
           <li class="impact">
             <div class="figure">145M<span class="unit">records processed · +43% throughput</span></div>
             <div class="desc">
-              Architected partition-wise data processing across 8+ source tables.
-              <span class="mech">64-way hash partitioning with parallel DML.</span>
+              Architected partition-wise data processing using 64-way hash partitioning and parallel DML across 8+ source tables — improved batch performance by 43% on the highest-volume jobs.
+              <span class="mech">Oracle DB tuning, partition keys, parallel hints.</span>
             </div>
           </li>
           <li class="impact">
-            <div class="figure">33.7M<span class="unit">rows / batch · 2 wk → 3 days</span></div>
+            <div class="figure">33.7M<span class="unit">rows / batch · audit 2 wk → 3 days</span></div>
             <div class="desc">
-              Designed a PL/SQL reporting engine spanning multiple banking channels.
-              <span class="mech">Cut audit cycle time by ~75%.</span>
+              Designed a PL/SQL reporting engine processing 33.7M records across multiple banking channels — cutting audit cycle time from two weeks to three days for compliance reviews.
+              <span class="mech">PL/SQL packages, materialised views, channel-aware aggregations.</span>
             </div>
           </li>
           <li class="impact">
             <div class="figure">−65%<span class="unit">production incidents</span></div>
             <div class="desc">
-              Built a proactive monitoring &amp; alerting framework alongside Java optimisations.
-              <span class="mech">Targeted 80+ failure patterns end-to-end.</span>
+              Built a proactive monitoring and alerting framework targeting 80+ failure patterns alongside Java optimisations — cut production incidents by 65% across core banking modules.
+              <span class="mech">Pattern-based alerting + Java-side defensive fixes.</span>
             </div>
           </li>
           <li class="impact">
             <div class="figure">100%<span class="unit">recovery automation</span></div>
             <div class="desc">
-              Engineered an automated SQL/Bash file-processing recovery system.
-              <span class="mech">Detect, retry, and log failures — eliminated manual intervention for hundreds of monthly transactions.</span>
+              Engineered an automated SQL/Bash file-processing recovery system that detects, retries, and logs failures end-to-end — eliminating manual intervention for hundreds of monthly transactions across batch pipelines.
+              <span class="mech">Bash orchestration + SQL transaction recovery + structured logging.</span>
             </div>
           </li>
           <li class="impact">
             <div class="figure">60+<span class="unit">java fixes shipped</span></div>
             <div class="desc">
-              Code fixes and architectural improvements across core banking modules.
-              <span class="mech">Spread across multiple production releases.</span>
+              Shipped 60+ Java code fixes and architectural improvements across core banking modules used by tens of thousands of branches — spread across multiple production releases.
+              <span class="mech">Bug fixes, refactors, defensive guards, performance patches.</span>
             </div>
           </li>
         </ul>
@@ -958,8 +1195,8 @@
           <li class="impact">
             <div class="figure">team of 6<span class="unit">developers led</span></div>
             <div class="desc">
-              Designed, built, and shipped a production React website.
-              <span class="mech">Coordinated delivery milestones and managed feature updates with external stakeholders.</span>
+              Led a team of 6 developers to design, build, and ship a production React website — coordinating delivery milestones, code reviews, and feature updates with external stakeholders end-to-end.
+              <span class="mech">Frontend lead role: architecture, sprint planning, stakeholder syncs.</span>
             </div>
           </li>
         </ul>
@@ -1273,13 +1510,28 @@
         <span class="num">07 / publication</span>
         <span class="title">peer-reviewed</span>
       </div>
-      <article class="pub reveal" style="border-top:none; padding-top:0;">
-        <h3>Effective, Inexpensive and Robust Solution to Classroom Attendance Recording Using Face Detection Technology</h3>
-        <div class="authors">Hussein Motiwala, Rushabh Gandhi, Nayan Mandliya, Kritarth Jain</div>
-        <div class="venue"><em>International Journal of Research in Engineering, Science and Management</em> · May 2023</div>
-        <p>A low-cost, robust attendance system using class photographs and face detection — autonomously locates and identifies student features, with a parallel web app for self-confirmation. Removes manual roll-call overhead and proxy fraud while improving accuracy.</p>
-        <div class="proj-actions">
-          <a href="https://journal.ijresm.com/index.php/ijresm/article/view/2694" target="_blank" rel="noopener">read paper <span class="arrow">↗</span></a>
+      <article class="pub reveal">
+        <span class="pub-stamp">peer-reviewed</span>
+        <div class="pub-meta">
+          <div class="field"><span>vol / issue</span><b>Vol 6 · Issue 5</b></div>
+          <div class="field"><span>published</span><b>May 2023</b></div>
+          <div class="field"><span>doi / id</span><b>IJRESM · 2694</b></div>
+          <div class="field"><span>authors</span><b>4</b></div>
+        </div>
+        <div class="pub-body">
+          <div class="pub-inner">
+            <h3>Effective, Inexpensive and Robust Solution to Classroom Attendance Recording Using Face Detection Technology</h3>
+            <div class="authors">
+              <span class="me">Hussein Motiwala</span>, Rushabh Gandhi, Nayan Mandliya, Kritarth Jain
+            </div>
+            <div class="venue"><em>International Journal of Research in Engineering, Science and Management</em></div>
+            <div class="abstract-label">— abstract</div>
+            <p>A low-cost, robust attendance system using class photographs and face detection — autonomously locates and identifies student features, with a parallel web app for self-confirmation. Removes manual roll-call overhead and proxy fraud while improving accuracy. Built on top of the smart-attendance-system codebase and validated across multiple classroom photo conditions.</p>
+            <div class="pub-actions">
+              <a href="https://journal.ijresm.com/index.php/ijresm/article/view/2694" target="_blank" rel="noopener">read paper <span class="arrow">↗</span></a>
+              <a href="https://github.com/hussein-hub/Smart-Attendance-System" target="_blank" rel="noopener" class="secondary">source code <span class="arrow">↗</span></a>
+            </div>
+          </div>
         </div>
       </article>
     </div>
@@ -1294,12 +1546,17 @@
       </div>
       <div class="contact-card reveal">
       <h3>Let's build something solid.</h3>
-      <p>Available full-time from <span class="ink">June 2026</span>, Stamp 1G eligible from September 2026. Looking for backend or full-stack roles in Dublin.</p>
+      <div class="signals">
+        <span class="signal"><span class="icon"></span>Open to roles</span>
+        <span class="signal"><span class="icon"></span>Available <b>Jun 2026</b></span>
+        <span class="signal"><span class="icon"></span>Stamp 1G eligible <b>Sep 2026</b></span>
+        <span class="signal"><span class="icon"></span>Based in Dublin</span>
+      </div>
+      <p>Looking for backend or full-stack roles in Dublin — happy to hear from companies, recruiters, or fellow engineers. Best way to reach me is email; I read every message.</p>
       <div class="actions">
         <a href="mailto:motiwalahussein@gmail.com" class="" style="border:1px solid var(--accent); color:var(--accent); padding:8px 14px; border-radius:6px; font-size:12px; border-bottom:1px solid var(--accent);">motiwalahussein@gmail.com ↗</a>
         <a href="https://github.com/hussein-hub" target="_blank" rel="noopener" style="border:1px solid var(--rule); padding:8px 14px; border-radius:6px; font-size:12px;">github ↗</a>
         <a href="https://www.linkedin.com/in/hussein-motiwala" target="_blank" rel="noopener" style="border:1px solid var(--rule); padding:8px 14px; border-radius:6px; font-size:12px;">linkedin ↗</a>
-        <a href="tel:+353892209409" style="border:1px solid var(--rule); padding:8px 14px; border-radius:6px; font-size:12px;">+353 89 220 9409</a>
       </div>
       </div>
     </div>
