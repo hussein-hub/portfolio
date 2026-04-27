@@ -607,6 +607,35 @@
     display: inline;
     animation: caret 1.1s step-end infinite;
   }
+  /* Per-character typing: every char is pre-rendered (so wrapping is final),
+     hidden via visibility — preserves its layout box — and revealed in place.
+     No reflow during typing. */
+  #heroH1 .tch {
+    visibility: hidden;
+  }
+  #heroH1 .tch.on {
+    visibility: visible;
+  }
+  /* Hero H1 typing caret: absolutely positioned so it never affects text
+     layout. We position it via JS using offsetLeft/offsetTop of the
+     last-revealed character. Smooth opacity blink. */
+  #heroH1 { position: relative; }
+  .typing-caret {
+    position: absolute;
+    pointer-events: none;
+    color: var(--accent);
+    font: inherit;
+    line-height: inherit;
+    top: 0;
+    left: 0;
+    animation: caret-smooth 1.05s ease-in-out infinite;
+    will-change: opacity, top, left;
+    transition: top 80ms linear, left 80ms linear;
+  }
+  @keyframes caret-smooth {
+    0%, 45%   { opacity: 1; }
+    55%, 100% { opacity: 0.15; }
+  }
   .hero-side { display: flex; flex-direction: column; gap: 18px; padding-top: 8px; }
 
   .links {
@@ -901,31 +930,6 @@
   .proj-actions a .arrow { color: var(--ink-faint); margin-left: 4px; }
   .proj-actions a:hover .arrow { color: var(--accent); }
 
-  /* ---- PROJECT CODE PREVIEW ---- */
-  .proj-code {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: oklch(0.12 0.008 240 / 0.97);
-    border-top: 1px solid oklch(0.24 0.01 240);
-    transform: translateY(101%);
-    transition: transform 270ms cubic-bezier(.2,.6,.2,1);
-    padding: 10px 16px 14px;
-    font-size: 10.5px;
-    line-height: 1.6;
-    color: oklch(0.65 0.008 240);
-    font-family: var(--mono);
-    pointer-events: none;
-    white-space: pre;
-  }
-  .proj:hover .proj-code { transform: translateY(0); }
-  .proj-code .ck { color: oklch(0.70 0.13 270); }
-  .proj-code .cf { color: oklch(0.78 0.12 200); }
-  .proj-code .cs { color: oklch(0.74 0.10 90);  }
-  .proj-code .cc { color: oklch(0.38 0.008 240); }
-  .proj-code .cn { color: var(--accent); }
-  @media (prefers-reduced-motion: reduce) {
-    .proj-code { transform: translateY(0); opacity: 0.85; }
-  }
 
   /* ---- SKILLS ---- */
   .skills-grid-wrap {
@@ -973,20 +977,20 @@
     color: var(--accent);
     line-height: 1;
     font-variant-numeric: tabular-nums;
+    display: inline-block;
   }
   .skill-row .blocks .off { color: var(--rule); }
-  .skill-row .blocks .on {
-    display: inline-block;
-    overflow: hidden;
-    max-width: 0;
-    white-space: nowrap;
-    vertical-align: middle;
-    transition: max-width 2400ms cubic-bezier(.1,.0,.3,1);
+  .skill-row .blocks .on { display: inline; }
+  /* Each filled block ticks on individually — atomic unit is the █ glyph,
+     mimicking a terminal progress bar filling. */
+  .skill-row .blocks .on .blk {
+    opacity: 0;
+    transition: opacity 60ms linear;
   }
-  .skill-row.in .blocks .on { max-width: 200px; }
+  .skill-row.in .blocks .on .blk.lit { opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    .skill-row .blocks .on { transition: none; max-width: 200px; }
+    .skill-row .blocks .on .blk { opacity: 1; transition: none; }
   }
   .skill-cluster .cluster-label {
     font-size: 11px;
@@ -1671,10 +1675,6 @@
         <a href="https://github.com/hussein-hub/db-delta" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
-      <div class="proj-code"><span class="ck">def</span> <span class="cf">compare</span>(src, tgt, dialect):
-  q = <span class="cf">gen_diff_query</span>(src, tgt)
-  rows = db.execute(q).fetchall()
-  <span class="ck">return</span> Delta(schema=rows, data=rows)</div>
     </article>
 
     <article class="proj reveal">
@@ -1694,12 +1694,6 @@
         <a href="https://url-shortener-bvrg.onrender.com/" target="_blank" rel="noopener">live demo <span class="arrow">↗</span></a>
       </div>
       </div>
-      <div class="proj-code"><span class="ck">@PostMapping</span>(<span class="cs">"/shorten"</span>)
-<span class="ck">public</span> String shorten(Url u) {
-  String key = hashSvc.encode(u);
-  repo.save(<span class="ck">new</span> ShortUrl(key, u.url));
-  <span class="ck">return</span> baseUrl + <span class="cs">"/"</span> + key;
-}</div>
     </article>
 
     <article class="proj reveal">
@@ -1718,12 +1712,6 @@
         <a href="https://github.com/Winter-Soren/void" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
-      <div class="proj-code"><span class="ck">async function</span> <span class="cf">deploy</span>(cfg: Config) {
-  <span class="ck">const</span> inst = <span class="ck">await</span> oci.create(cfg);
-  ws.emit(<span class="cs">'build'</span>, { status: <span class="cs">'running'</span> });
-  <span class="ck">await</span> docker.build(cfg.image);
-  <span class="ck">return</span> { url: inst.endpoint };
-}</div>
     </article>
 
     <article class="proj reveal">
@@ -1742,11 +1730,6 @@
         <a href="https://github.com/hussein-hub/Edumate" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
-      <div class="proj-code"><span class="ck">def</span> <span class="cf">mark_attendance</span>(frame):
-  faces = detector.detect(frame)
-  <span class="ck">for</span> face <span class="ck">in</span> faces:
-    fid = recognizer.predict(face)
-    db.mark(fid, datetime.now())</div>
     </article>
 
     <article class="proj reveal">
@@ -1765,11 +1748,6 @@
         <a href="https://github.com/Panacea-4-U/Modular-Panacea" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
-      <div class="proj-code"><span class="ck">def</span> <span class="cf">predict_risk</span>(data):
-  X = preprocess(data)
-  risk = model.predict_proba(X)[<span class="cn">0</span>]
-  docs = find_nearby(data[<span class="cs">'location'</span>])
-  <span class="ck">return</span> {<span class="cs">'risk'</span>: risk, <span class="cs">'docs'</span>: docs}</div>
     </article>
 
     <article class="proj reveal">
@@ -1788,11 +1766,6 @@
         <a href="https://github.com/hussein-hub/Smart-Attendance-System" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
       </div>
       </div>
-      <div class="proj-code"><span class="ck">def</span> <span class="cf">recognize</span>(img_path):
-  img = cv2.imread(img_path)
-  gray = cv2.cvtColor(img, GRAY)
-  faces = cascade.detectMultiScale(gray)
-  <span class="ck">return</span> [encode(f) <span class="ck">for</span> f <span class="ck">in</span> faces]</div>
     </article>
       </div>
       </div>
@@ -2151,21 +2124,57 @@
   // ---- SKILL BARS ----
   (function () {
     var rows = document.querySelectorAll(".skill-row");
+    // Wrap each filled block character in its own .blk span so we can reveal
+    // them one at a time — atomic unit is the █ glyph, like a terminal bar.
     rows.forEach(function (r) {
       var w = r.getAttribute("data-w");
       if (w) r.style.setProperty("--w", w + "%");
+      var on = r.querySelector(".blocks .on");
+      if (!on || on.dataset.split === "1") return;
+      var text = on.textContent;
+      var html = "";
+      for (var i = 0; i < text.length; i++) {
+        html += '<span class="blk">' + text.charAt(i) + '</span>';
+      }
+      on.innerHTML = html;
+      on.dataset.split = "1";
     });
+
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function fillRow(row) {
+      var blks = row.querySelectorAll(".blocks .on .blk");
+      if (!blks.length) { row.classList.add("in"); return; }
+      row.classList.add("in");
+      if (reduced) {
+        blks.forEach(function (b) { b.classList.add("lit"); });
+        return;
+      }
+      // Stagger ~120ms per block — slower fill that reads as a real
+      // terminal progress bar loading, not a quick flourish.
+      var per = 120;
+      blks.forEach(function (b, i) {
+        setTimeout(function () { b.classList.add("lit"); }, i * per);
+      });
+    }
+    function clearRow(row) {
+      row.classList.remove("in");
+      row.querySelectorAll(".blocks .on .blk.lit").forEach(function (b) {
+        b.classList.remove("lit");
+      });
+    }
+
     if (!("IntersectionObserver" in window)) {
-      rows.forEach(function (r) { r.classList.add("in"); });
+      rows.forEach(fillRow);
       return;
     }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           var idx = Array.prototype.indexOf.call(entry.target.parentNode.children, entry.target);
-          setTimeout(function () { entry.target.classList.add("in"); }, idx * 60);
+          setTimeout(function () { fillRow(entry.target); }, idx * 60);
         } else {
-          entry.target.classList.remove("in");
+          clearRow(entry.target);
         }
       });
     }, { threshold: 0.2 });
@@ -2287,8 +2296,29 @@
 
     function navTo(hash) {
       var el = hash === '#top' ? null : document.querySelector(hash);
-      var top = el ? el.getBoundingClientRect().top + window.scrollY - 64 : 0;
-      window.scrollTo({ top: top, behavior: 'smooth' });
+      var targetTop = el ? el.getBoundingClientRect().top + window.scrollY - 64 : 0;
+      var startTop  = window.scrollY || window.pageYOffset || 0;
+      var distance  = targetTop - startTop;
+      if (Math.abs(distance) < 2) { window.scrollTo(0, targetTop); return; }
+
+      // Custom eased scroll — duration scales with distance for a calm, even
+      // glide regardless of jump size. Capped so very long pages don't crawl.
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) { window.scrollTo(0, targetTop); return; }
+
+      var duration = Math.min(1400, 600 + Math.abs(distance) * 0.4);
+      var startTime = performance.now();
+
+      // easeInOutCubic — gentle acceleration and deceleration
+      function ease(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+      function frame(now) {
+        var t = Math.min(1, (now - startTime) / duration);
+        window.scrollTo(0, startTop + distance * ease(t));
+        if (t < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
     }
 
     var filtered = commands.slice();
@@ -2988,48 +3018,121 @@
       { t: '.', a: false }
     ];
 
-    // Preserve natural height so layout doesn't shift during typing
+    // Strategy: render the FULL final text immediately with each character
+    // wrapped in a span, but invisible. Reveal them one at a time. This
+    // pre-commits the line-wrap layout, so no words shift as typing progresses.
+    h1.innerHTML = '';
+    var charSpans = [];
+    SEGS.forEach(function (seg) {
+      var holder = h1;
+      if (seg.a) {
+        holder = document.createElement('span');
+        holder.className = 'accent';
+        h1.appendChild(holder);
+      }
+      for (var i = 0; i < seg.t.length; i++) {
+        var ch = seg.t.charAt(i);
+        var s = document.createElement('span');
+        s.className = 'tch';
+        // Use a non-breaking space INSIDE the span for spaces, but break BEFORE
+        // the next word using a real space text node so wrapping still works.
+        if (ch === ' ') {
+          // Emit a real text-node space (allows wrapping), no span needed.
+          // We still need a "step" for it though — push a sentinel.
+          holder.appendChild(document.createTextNode(' '));
+          charSpans.push(null); // null = no reveal needed, just a delay tick
+        } else {
+          s.textContent = ch;
+          holder.appendChild(s);
+          charSpans.push(s);
+        }
+      }
+    });
+
+    // Caret: absolutely positioned, never affects text flow.
+    var caret = document.createElement('span');
+    caret.className = 'js-caret typing-caret';
+    caret.textContent = '▍';
+    h1.appendChild(caret);
+
+    // Lock the layout height so removing the caret at the end doesn't shift.
     var savedH = h1.offsetHeight;
     h1.style.minHeight = savedH + 'px';
 
-    var done = [], sIdx = 0, cIdx = 0;
-
-    function buildHTML() {
-      var html = '';
-      done.forEach(function (seg) {
-        html += seg.a ? '<span class="accent">' + seg.t + '</span>' : seg.t;
-      });
-      if (sIdx < SEGS.length) {
-        var partial = SEGS[sIdx].t.slice(0, cIdx);
-        html += SEGS[sIdx].a ? '<span class="accent">' + partial + '</span>' : partial;
+    // Position caret at the right edge of a character span using offset coords.
+    // offsetParent is #heroH1 (position: relative), so offsets are local to it.
+    // We snap the caret's top to the same line-box top as the character — this
+    // keeps the caret's baseline aligned with the text.
+    function positionCaretAt(span) {
+      if (!span) {
+        caret.style.left = '0px';
+        caret.style.top = '0px';
+        return;
       }
-      html += '<span class="js-caret">▍</span>';
-      return html;
+      var x = span.offsetLeft + span.offsetWidth;
+      var y = span.offsetTop;
+      caret.style.left = x + 'px';
+      caret.style.top = y + 'px';
     }
 
-    function typeNext() {
-      cIdx++;
-      if (cIdx > SEGS[sIdx].t.length) {
-        done.push(SEGS[sIdx]);
-        sIdx++; cIdx = 0;
-        if (sIdx >= SEGS.length) {
-          var html = '';
-          done.forEach(function (seg) {
-            html += seg.a ? '<span class="accent">' + seg.t + '</span>' : seg.t;
-          });
-          h1.innerHTML = html;
+    var idx = 0;
+    var lastTime = 0;
+    var nextDelay = 700; // initial pause before typing starts
+    var lastVisible = null;
+    positionCaretAt(null);
+
+    function step(now) {
+      if (!lastTime) lastTime = now;
+      if (now - lastTime < nextDelay) {
+        requestAnimationFrame(step);
+        return;
+      }
+      lastTime = now;
+
+      if (idx >= charSpans.length) {
+        // Done — fade caret out and remove.
+        caret.style.transition = 'opacity 240ms ease';
+        caret.style.animation = 'none';
+        caret.style.opacity = '0';
+        setTimeout(function () {
+          if (caret.parentNode) caret.parentNode.removeChild(caret);
           h1.style.minHeight = '';
-          return;
-        }
+        }, 260);
+        return;
       }
-      h1.innerHTML = buildHTML();
-      var cur = SEGS[sIdx];
-      var delay = cur && cur.a ? 44 + Math.random() * 28 : 30 + Math.random() * 42;
-      setTimeout(typeNext, delay);
+
+      var span = charSpans[idx];
+      var ch = ' ';
+      if (span) {
+        span.classList.add('on');
+        lastVisible = span;
+        ch = span.textContent;
+      }
+      // Move caret to right edge of the most recently revealed character.
+      // (Spaces are real text nodes — the caret stays at the previous char's
+      // edge, then jumps when the next visible char reveals. Looks natural.)
+      if (lastVisible) positionCaretAt(lastVisible);
+
+      idx++;
+
+      var isPunct = /[.,;:!?]/.test(ch);
+      if (!span) nextDelay = 32 + Math.random() * 14;       // space
+      else if (isPunct) nextDelay = 120 + Math.random() * 40;
+      else nextDelay = 38 + Math.random() * 18;
+
+      requestAnimationFrame(step);
     }
 
-    h1.innerHTML = '<span class="js-caret">▍</span>';
-    setTimeout(typeNext, 700);
+    // Reposition on resize (layout may rewrap).
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        if (lastVisible && caret.parentNode) positionCaretAt(lastVisible);
+      }, 80);
+    });
+
+    requestAnimationFrame(step);
   })();
 
   // ---- SESSION UPTIME ----
