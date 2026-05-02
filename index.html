@@ -1460,6 +1460,47 @@
                 color: var(--accent);
             }
 
+            /* ---- ARCHIVE ---- */
+            .proj-archive {
+                margin-top: 32px;
+            }
+            .proj-archive summary {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+                color: var(--ink-faint);
+                user-select: none;
+                list-style: none;
+                padding: 6px 0;
+            }
+            .proj-archive summary::-webkit-details-marker { display: none; }
+            .proj-archive summary .toggle-icon {
+                font-style: normal;
+                transition: transform .2s ease;
+                display: inline-block;
+            }
+            .proj-archive[open] summary .toggle-icon {
+                transform: rotate(90deg);
+            }
+            .proj-archive summary:hover { color: var(--ink-mid); }
+            .archive-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+                gap: 16px;
+                margin-top: 20px;
+            }
+            .proj-archive .proj {
+                opacity: .75;
+            }
+            .proj-archive .proj:hover {
+                opacity: 1;
+            }
+
             /* ---- SKILLS ---- */
             .skills-grid-wrap {
                 display: grid;
@@ -2503,19 +2544,21 @@
                                             −<span class="js-num" data-to="65"
                                                 >65</span
                                             >%<span class="unit"
-                                                >production incidents</span
+                                                >fewer prod incidents</span
                                             >
                                         </div>
                                         <div class="desc">
-                                            Analysed and resolved 80+ recurring
-                                            failure patterns across core banking
-                                            modules through targeted Java fixes,
-                                            defensive guards, and root-cause
-                                            refactors — reduced production
-                                            incidents by 65%.
+                                            Identified 80+ recurring failure
+                                            patterns across core banking modules
+                                            — null-path crashes, edge-case
+                                            transaction handling, silent data
+                                            corruption — and resolved each
+                                            through targeted Java fixes and
+                                            defensive refactors. No new
+                                            tooling; just fixing the code.
                                             <span class="mech"
                                                 >Java bug fixes · defensive
-                                                coding · root-cause
+                                                guards · root-cause
                                                 analysis.</span
                                             >
                                         </div>
@@ -2622,6 +2665,25 @@
                     </div>
                     <div>
                         <div class="proj-grid">
+
+                            <article class="proj reveal">
+                                <div class="term-head">
+                                    <span class="dots"><i></i><i></i><i></i></span>
+                                    <span class="path">~/projects/<span class="accent">cal-tui</span></span>
+                                    <span class="year">2026 · go<span class="wip">in progress</span></span>
+                                </div>
+                                <div class="body">
+                                    <h3>cal-tui</h3>
+                                    <p>A terminal-native calendar built in Go — keyboard-driven, runs anywhere. Built with Bubble Tea; exploring Go's concurrency model and TUI rendering.</p>
+                                    <div class="stack">
+                                        <span>Go</span><span>Bubble Tea</span><span>TUI</span>
+                                    </div>
+                                    <div class="proj-actions">
+                                        <a href="https://github.com/hussein-hub/cal-tui" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
+                                    </div>
+                                </div>
+                            </article>
+
                             <article class="proj reveal">
                                 <div class="term-head">
                                     <span class="dots"><i></i><i></i><i></i></span>
@@ -2694,58 +2756,47 @@
                                     </div>
                                 </div>
                             </article>
-
-                            <article class="proj reveal">
-                                <div class="term-head">
-                                    <span class="dots"><i></i><i></i><i></i></span>
-                                    <span class="path">~/projects/<span class="accent">panacea</span></span>
-                                    <span class="year">2022 · python</span>
-                                </div>
-                                <div class="body">
-                                    <h3>panacea</h3>
-                                    <p>Django backend exposing ML inference endpoints for lung, kidney, and heart disease risk assessment, backed by a geolocation search API for specialist discovery. Three independent models served through a single REST layer.</p>
-                                    <div class="stack">
-                                        <span>Python</span><span>Django</span><span>ML</span><span>JavaScript</span>
-                                    </div>
-                                    <div class="proj-actions">
-                                        <a href="https://github.com/Panacea-4-U/Modular-Panacea" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <article class="proj reveal">
-                                <div class="term-head">
-                                    <span class="dots"><i></i><i></i><i></i></span>
-                                    <span class="path">~/projects/<span class="accent">indecor</span></span>
-                                    <span class="year">2024 · python</span>
-                                </div>
-                                <div class="body">
-                                    <h3>indecor</h3>
-                                    <p>Django backend serving a Segment Anything Model (SAM) inference pipeline for wall detection and real-time paint visualisation. API handles image upload, mask generation, and colour application server-side. Built with a team of 4 at a hackathon.</p>
-                                    <div class="stack">
-                                        <span>Python</span><span>Django</span><span>SAM</span><span>OpenCV</span><span>SQLite</span>
-                                    </div>
-                                    <div class="proj-actions">
-                                        <a href="https://github.com/rushabhgandhi13/djcsi_team_eternium" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <article class="proj reveal">
-                                <div class="term-head">
-                                    <span class="dots"><i></i><i></i><i></i></span>
-                                    <span class="path">~/projects/<span class="accent">cal-tui</span></span>
-                                    <span class="year">2026 · go<span class="wip">in progress</span></span>
-                                </div>
-                                <div class="body">
-                                    <h3>cal-tui</h3>
-                                    <p>A terminal-native calendar built in Go — keyboard-driven, runs anywhere. Built with Bubble Tea; exploring Go's concurrency model and TUI rendering.</p>
-                                    <div class="stack">
-                                        <span>Go</span><span>Bubble Tea</span><span>TUI</span>
-                                    </div>
-                                </div>
-                            </article>
                         </div>
+
+                        <details class="proj-archive">
+                            <summary><i class="toggle-icon">▶</i> archived projects <span style="opacity:.5">(2)</span></summary>
+                            <div class="archive-grid">
+                                <article class="proj">
+                                    <div class="term-head">
+                                        <span class="dots"><i></i><i></i><i></i></span>
+                                        <span class="path">~/projects/<span class="accent">panacea</span></span>
+                                        <span class="year">2022 · python</span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>panacea</h3>
+                                        <p>Django backend exposing ML inference endpoints for lung, kidney, and heart disease risk assessment, backed by a geolocation search API for specialist discovery. Three independent models served through a single REST layer.</p>
+                                        <div class="stack">
+                                            <span>Python</span><span>Django</span><span>ML</span><span>JavaScript</span>
+                                        </div>
+                                        <div class="proj-actions">
+                                            <a href="https://github.com/Panacea-4-U/Modular-Panacea" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="proj">
+                                    <div class="term-head">
+                                        <span class="dots"><i></i><i></i><i></i></span>
+                                        <span class="path">~/projects/<span class="accent">indecor</span></span>
+                                        <span class="year">2024 · python</span>
+                                    </div>
+                                    <div class="body">
+                                        <h3>indecor</h3>
+                                        <p>Django backend serving a Segment Anything Model (SAM) inference pipeline for wall detection and real-time paint visualisation. API handles image upload, mask generation, and colour application server-side. Built with a team of 4 at a hackathon.</p>
+                                        <div class="stack">
+                                            <span>Python</span><span>Django</span><span>SAM</span><span>OpenCV</span><span>SQLite</span>
+                                        </div>
+                                        <div class="proj-actions">
+                                            <a href="https://github.com/rushabhgandhi13/djcsi_team_eternium" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </details>
                     </div>
                 </div>
             </section>
@@ -2761,7 +2812,7 @@
                         <div class="skills-grid-wrap">
                             <div class="reveal skill-cluster">
                                 <div class="cluster-label">
-                                    languages <span class="count">8</span>
+                                    languages <span class="count">7</span>
                                 </div>
                                 <div class="skill-list">
                                     <div class="skill-row" data-w="95">
@@ -2792,11 +2843,11 @@
                                             ><span class="off">░</span></span
                                         >
                                     </div>
-                                    <div class="skill-row" data-w="75">
-                                        <span class="name">XML</span
+                                    <div class="skill-row" data-w="40">
+                                        <span class="name">Go</span
                                         ><span class="blocks"
-                                            ><span class="on">████████</span
-                                            ><span class="off">░░</span></span
+                                            ><span class="on">████</span
+                                            ><span class="off">░░░░░░</span></span
                                         >
                                     </div>
                                     <div class="skill-row" data-w="70">
@@ -2909,7 +2960,7 @@
                             <div class="reveal skill-cluster">
                                 <div class="cluster-label">
                                     cloud, devops &amp; tooling
-                                    <span class="count">8</span>
+                                    <span class="count">5</span>
                                 </div>
                                 <div class="skill-list">
                                     <div class="skill-row" data-w="88">
@@ -2926,34 +2977,11 @@
                                             ><span class="off">░</span></span
                                         >
                                     </div>
-                                    <div class="skill-row" data-w="80">
-                                        <span class="name">Agile / Scrum</span
-                                        ><span class="blocks"
-                                            ><span class="on">████████</span
-                                            ><span class="off">░░</span></span
-                                        >
-                                    </div>
                                     <div class="skill-row" data-w="75">
                                         <span class="name">Docker</span
                                         ><span class="blocks"
                                             ><span class="on">████████</span
                                             ><span class="off">░░</span></span
-                                        >
-                                    </div>
-                                    <div class="skill-row" data-w="75">
-                                        <span class="name">JIRA</span
-                                        ><span class="blocks"
-                                            ><span class="on">████████</span
-                                            ><span class="off">░░</span></span
-                                        >
-                                    </div>
-                                    <div class="skill-row" data-w="30">
-                                        <span class="name">CI/CD</span
-                                        ><span class="blocks"
-                                            ><span class="on">████</span
-                                            ><span class="off"
-                                                >░░░░░░</span
-                                            ></span
                                         >
                                     </div>
                                     <div class="skill-row" data-w="65">
@@ -3030,47 +3058,6 @@
                             </div>
                         </article>
 
-                        <article class="entry reveal">
-                            <div class="when"><b>2017 — 2019</b>2 years</div>
-                            <div>
-                                <h3>HSC — Higher Secondary Certificate</h3>
-                                <div class="org">
-                                    <a
-                                        href="https://www.wilsoncollege.edu/"
-                                        target="_blank"
-                                        rel="noopener"
-                                        >Wilson College</a
-                                    >
-                                    <span class="sep">·</span>India
-                                </div>
-                                <ul>
-                                    <li>
-                                        Science stream — physics, computer
-                                        science, mathematics.
-                                    </li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="entry reveal">
-                            <div class="when"><b>2007 — 2017</b>10 years</div>
-                            <div>
-                                <h3>
-                                    ICSE — Indian Certificate of Secondary
-                                    Education
-                                </h3>
-                                <div class="org">
-                                    <a
-                                        href="https://christchurchschoolmumbai.org/"
-                                        target="_blank"
-                                        rel="noopener"
-                                        >Christ Church School</a
-                                    >
-                                    <span class="sep">·</span>India
-                                </div>
-                            </div>
-                        </article>
-
                         <p class="label reveal" style="margin-top: 64px">
                             certifications
                         </p>
@@ -3126,44 +3113,6 @@
                                         <span class="cert-meta"
                                             >Jun 2025 · IBM · <a
                                                 href="https://coursera.org/verify/professional-cert/EJ6CJ0UFGI5D"
-                                                target="_blank"
-                                                rel="noopener"
-                                                >verify
-                                                <span class="arrow">↗</span></a
-                                            ></span
-                                        >
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="box" aria-hidden="true">✓</span>
-                                <div class="cert-body">
-                                    <div class="cert-row">
-                                        <span class="cert-name"
-                                            >Foundation of Data Science</span
-                                        >
-                                        <span class="cert-meta"
-                                            >Feb 2025 · Google · <a
-                                                href="https://www.coursera.org/account/accomplishments/verify/HFCH760LP1QS"
-                                                target="_blank"
-                                                rel="noopener"
-                                                >verify
-                                                <span class="arrow">↗</span></a
-                                            ></span
-                                        >
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="box" aria-hidden="true">✓</span>
-                                <div class="cert-body">
-                                    <div class="cert-row">
-                                        <span class="cert-name"
-                                            >Google Data Analytics</span
-                                        >
-                                        <span class="cert-meta"
-                                            >Sep 2023 · Google · <a
-                                                href="https://coursera.org/verify/professional-cert/95546EKLPJCV"
                                                 target="_blank"
                                                 rel="noopener"
                                                 >verify
@@ -4101,7 +4050,7 @@
                                 "  2023–2025  Software Engineer · Oracle Financial Services",
                                 "             78% faster reporting (23 min → 5 min)",
                                 "             145M records/batch · +43% throughput",
-                                "             65% fewer incidents · 100% recovery automation",
+                                "             65% fewer incidents (code fixes) · 100% manual intervention eliminated",
                                 "  2021–2022  Software Engineer · Sahyadri Foundation",
                                 "             Led team of 6 developers",
                                 "",
