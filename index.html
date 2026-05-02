@@ -1363,6 +1363,18 @@
                 color: var(--ink-faint);
                 font-variant-numeric: tabular-nums;
             }
+            .proj .term-head .wip {
+                font-size: 9px;
+                font-weight: 600;
+                letter-spacing: .06em;
+                text-transform: uppercase;
+                color: var(--accent);
+                border: 1px solid var(--accent);
+                border-radius: 3px;
+                padding: 1px 5px;
+                opacity: .85;
+                margin-left: 6px;
+            }
             .proj .body {
                 padding: 18px 20px 20px;
                 flex: 1;
@@ -2272,9 +2284,9 @@
                         </div>
                         <h1 id="heroH1">
                             Backend engineer building
-                            <span class="accent">high-availability</span>
-                            systems in <span class="accent">Java</span> and
-                            <span class="accent">SQL</span>.
+                            <span class="accent">Java</span> systems
+                            that move <span class="accent">millions of records</span>
+                            — reliably.
                         </h1>
                         <p class="lede reveal">
                             I'm Hussein — a backend engineer with 3+ years
@@ -2375,7 +2387,7 @@
                             I think in <span class="ink">data flow, indexes, and partition keys</span> first; framework choices second. Most performance wins come from doing less work, not better tooling.
                         </div>
                         <p>
-                            I'm drawn to high-concurrency services, large-scale batch pipelines, and fault-tolerant APIs. I care about query plans, partition strategies, and retry semantics before I care about frameworks. Java is my primary tool; Python when the problem fits.
+                            I'm drawn to high-concurrency services, large-scale batch pipelines, and fault-tolerant APIs. I care about query plans, partition strategies, and retry semantics before I care about frameworks. Java is my primary tool; Python when the problem fits. The MSc in Business Analytics at UCD adds a layer — understanding not just how to build the pipeline, but what the data flowing through it actually means.
                         </p>
                         <p>
                             On the side: a <a href="https://github.com/hussein-hub/db-delta" target="_blank" rel="noopener">git-diff for databases</a>, a <a href="https://github.com/Winter-Soren/void" target="_blank" rel="noopener">cloud deploy CLI</a>, a <a href="https://github.com/hussein-hub/url-shortener" target="_blank" rel="noopener">production URL shortener</a>. Open-source first.
@@ -2513,16 +2525,18 @@
                                             <span class="js-num" data-to="100"
                                                 >80</span
                                             >%<span class="unit"
-                                                >recovery automation</span
+                                                >manual intervention eliminated</span
                                             >
                                         </div>
                                         <div class="desc">
                                             Engineered an automated SQL/Bash
                                             file-processing recovery system that
                                             detects, retries, and logs failures
-                                            end-to-end — eliminating manual
-                                            intervention for hundreds of monthly
-                                            transactions across batch pipelines.
+                                            end-to-end — every failure path
+                                            previously requiring manual
+                                            intervention now handled
+                                            automatically across hundreds of
+                                            monthly batch transactions.
                                             <span class="mech"
                                                 >Bash orchestration + SQL
                                                 transaction recovery +
@@ -2572,8 +2586,8 @@
                                 <div class="dossier-tech">
                                     <span class="label-tag">stack</span>
                                     <span class="t">React</span
-                                    ><span class="t">JavaScript</span
-                                    ><span class="t">Node</span>
+                                    ><span class="t">Node</span
+                                    ><span class="t">JavaScript</span>
                                 </div>
                                 <ul class="impact-list">
                                     <li class="impact">
@@ -2582,20 +2596,13 @@
                                             <span class="js-num" data-to="6"
                                                 >6</span
                                             ><span class="unit"
-                                                >developers led</span
+                                                >engineers</span
                                             >
                                         </div>
                                         <div class="desc">
-                                            Led a team of 6 developers to
-                                            design, build, and ship a production
-                                            React website — coordinating
-                                            delivery milestones, code reviews,
-                                            and feature updates with external
-                                            stakeholders end-to-end.
+                                            Engineering lead on a production web platform — owned architecture decisions, defined the component model, ran code reviews, and drove delivery milestones from first commit to live deploy.
                                             <span class="mech"
-                                                >Frontend lead role:
-                                                architecture, sprint planning,
-                                                stakeholder syncs.</span
+                                                >End-to-end ownership: system design, sprint planning, stakeholder syncs.</span
                                             >
                                         </div>
                                     </li>
@@ -2623,7 +2630,7 @@
                                 </div>
                                 <div class="body">
                                     <h3>url-shortener</h3>
-                                    <p>A scalable URL shortener built with Spring Boot — click analytics, custom aliases, REST APIs, Tailwind UI. PostgreSQL via Supabase, deployed on Render.</p>
+                                    <p>Spring Boot REST API with redirect resolution, custom alias management, and a click analytics pipeline. PostgreSQL on Supabase with connection pooling; deployed and live on Render.</p>
                                     <div class="stack">
                                         <span>Java</span><span>Spring Boot</span><span>PostgreSQL</span><span>Supabase</span><span>Tailwind</span><span>Render</span>
                                     </div>
@@ -2642,7 +2649,7 @@
                                 </div>
                                 <div class="body">
                                     <h3>db-delta</h3>
-                                    <p>A "git diff for databases" — schema, row, and statistical diff at scale. SQL-native: generates dialect-specific queries and pushes computation to the server (Snowflake, Postgres, MySQL).</p>
+                                    <p>Schema, row, and statistical diff engine for databases. SQL-native by design — generates dialect-specific queries and pushes computation to the server rather than pulling data out. Supports Snowflake, Postgres, MySQL.</p>
                                     <div class="stack">
                                         <span>Python</span><span>SQL</span><span>Snowflake</span><span>PostgreSQL</span><span>MySQL</span>
                                     </div>
@@ -2654,150 +2661,87 @@
 
                             <article class="proj reveal">
                                 <div class="term-head">
-                                    <span class="dots"
-                                        ><i></i><i></i><i></i
-                                    ></span>
-                                    <span class="path"
-                                        >~/projects/<span class="accent"
-                                            >void</span
-                                        ></span
-                                    >
+                                    <span class="dots"><i></i><i></i><i></i></span>
+                                    <span class="path">~/projects/<span class="accent">void</span></span>
                                     <span class="year">2025 · typescript</span>
                                 </div>
                                 <div class="body">
                                     <h3>void</h3>
-                                    <p>
-                                        Cloud-native deployment platform that
-                                        cuts deployment time on Oracle Cloud
-                                        Infrastructure by 80%. Custom CLI
-                                        automates infra provisioning;
-                                        WebSocket-driven build feedback.
-                                    </p>
+                                    <p>Cloud deployment backend for Oracle Cloud Infrastructure — REST API for infra provisioning, WebSocket server for real-time build log streaming, and a CLI that wires it all together. Built with a team of 3 at an Oracle internal hackathon; placed 3rd.</p>
                                     <div class="stack">
-                                        <span>Next.js</span
-                                        ><span>TypeScript</span><span>OCI</span
-                                        ><span>Docker</span
-                                        ><span>WebSockets</span>
+                                        <span>Next.js</span><span>TypeScript</span><span>OCI</span><span>Docker</span><span>WebSockets</span>
                                     </div>
                                     <div class="proj-actions">
-                                        <a
-                                            href="https://github.com/Winter-Soren/void"
-                                            target="_blank"
-                                            rel="noopener"
-                                            >source
-                                            <span class="arrow">↗</span></a
-                                        >
+                                        <a href="https://github.com/Winter-Soren/void" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
                                     </div>
                                 </div>
                             </article>
 
                             <article class="proj reveal">
                                 <div class="term-head">
-                                    <span class="dots"
-                                        ><i></i><i></i><i></i
-                                    ></span>
-                                    <span class="path"
-                                        >~/projects/<span class="accent"
-                                            >edumate</span
-                                        ></span
-                                    >
+                                    <span class="dots"><i></i><i></i><i></i></span>
+                                    <span class="path">~/projects/<span class="accent">edumate</span></span>
                                     <span class="year">2023 · python</span>
                                 </div>
                                 <div class="body">
                                     <h3>edumate</h3>
-                                    <p>
-                                        Full-stack education platform — virtual
-                                        classrooms, assessments,
-                                        face-recognition attendance at 95%
-                                        accuracy. Reduced attendance-marking
-                                        time by 80% across hundreds of students.
-                                    </p>
+                                    <p>Full-stack education platform with face-recognition attendance — 95% accuracy, 80% reduction in marking time across hundreds of students. Django backend serving virtual classrooms, assessments, and a real-time CV inference pipeline.</p>
                                     <div class="stack">
-                                        <span>Python</span><span>Django</span
-                                        ><span>TensorFlow</span
-                                        ><span>Keras</span><span>OpenCV</span
-                                        ><span>SQLite</span>
+                                        <span>Python</span><span>Django</span><span>TensorFlow</span><span>Keras</span><span>OpenCV</span><span>SQLite</span>
                                     </div>
                                     <div class="proj-actions">
-                                        <a
-                                            href="https://github.com/hussein-hub/Edumate"
-                                            target="_blank"
-                                            rel="noopener"
-                                            >source
-                                            <span class="arrow">↗</span></a
-                                        >
+                                        <a href="https://github.com/hussein-hub/Edumate" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
                                     </div>
                                 </div>
                             </article>
 
                             <article class="proj reveal">
                                 <div class="term-head">
-                                    <span class="dots"
-                                        ><i></i><i></i><i></i
-                                    ></span>
-                                    <span class="path"
-                                        >~/projects/<span class="accent"
-                                            >panacea</span
-                                        ></span
-                                    >
+                                    <span class="dots"><i></i><i></i><i></i></span>
+                                    <span class="path">~/projects/<span class="accent">panacea</span></span>
                                     <span class="year">2022 · python</span>
                                 </div>
                                 <div class="body">
                                     <h3>panacea</h3>
-                                    <p>
-                                        Web platform leveraging ML models (80%
-                                        accuracy) to assess lung, kidney, and
-                                        heart disease risks — with
-                                        geolocation-based specialist search to
-                                        improve early diagnosis and care access.
-                                    </p>
+                                    <p>Django backend exposing ML inference endpoints for lung, kidney, and heart disease risk assessment, backed by a geolocation search API for specialist discovery. Three independent models served through a single REST layer.</p>
                                     <div class="stack">
-                                        <span>Python</span><span>Django</span
-                                        ><span>ML</span><span>JavaScript</span>
+                                        <span>Python</span><span>Django</span><span>ML</span><span>JavaScript</span>
                                     </div>
                                     <div class="proj-actions">
-                                        <a
-                                            href="https://github.com/Panacea-4-U/Modular-Panacea"
-                                            target="_blank"
-                                            rel="noopener"
-                                            >source
-                                            <span class="arrow">↗</span></a
-                                        >
+                                        <a href="https://github.com/Panacea-4-U/Modular-Panacea" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
                                     </div>
                                 </div>
                             </article>
 
                             <article class="proj reveal">
                                 <div class="term-head">
-                                    <span class="dots"
-                                        ><i></i><i></i><i></i
-                                    ></span>
-                                    <span class="path"
-                                        >~/projects/<span class="accent"
-                                            >smart-attendance-system</span
-                                        ></span
-                                    >
-                                    <span class="year">2021 · python</span>
+                                    <span class="dots"><i></i><i></i><i></i></span>
+                                    <span class="path">~/projects/<span class="accent">indecor</span></span>
+                                    <span class="year">2024 · python</span>
                                 </div>
                                 <div class="body">
-                                    <h3>smart-attendance-system</h3>
-                                    <p>
-                                        Facial-recognition attendance system.
-                                        Basis for a peer-reviewed publication in
-                                        IJRESM — see below.
-                                    </p>
+                                    <h3>indecor</h3>
+                                    <p>Django backend serving a Segment Anything Model (SAM) inference pipeline for wall detection and real-time paint visualisation. API handles image upload, mask generation, and colour application server-side. Built with a team of 4 at a hackathon.</p>
                                     <div class="stack">
-                                        <span>Django</span><span>OpenCV</span
-                                        ><span>Python</span>
+                                        <span>Python</span><span>Django</span><span>SAM</span><span>OpenCV</span><span>SQLite</span>
                                     </div>
                                     <div class="proj-actions">
-                                        <a
-                                            href="https://github.com/hussein-hub/Smart-Attendance-System"
-                                            target="_blank"
-                                            rel="noopener"
-                                            >source
-                                            <span class="arrow">↗</span></a
-                                        >
+                                        <a href="https://github.com/rushabhgandhi13/djcsi_team_eternium" target="_blank" rel="noopener">source <span class="arrow">↗</span></a>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="proj reveal">
+                                <div class="term-head">
+                                    <span class="dots"><i></i><i></i><i></i></span>
+                                    <span class="path">~/projects/<span class="accent">cal-tui</span></span>
+                                    <span class="year">2026 · go<span class="wip">in progress</span></span>
+                                </div>
+                                <div class="body">
+                                    <h3>cal-tui</h3>
+                                    <p>A terminal-native calendar built in Go — keyboard-driven, runs anywhere. Built with Bubble Tea; exploring Go's concurrency model and TUI rendering.</p>
+                                    <div class="stack">
+                                        <span>Go</span><span>Bubble Tea</span><span>TUI</span>
                                     </div>
                                 </div>
                             </article>
@@ -5044,12 +4988,10 @@
 
                 var SEGS = [
                     { t: "Backend engineer building ", a: false },
-                    { t: "high-availability", a: true },
-                    { t: " systems in ", a: false },
                     { t: "Java", a: true },
-                    { t: " and ", a: false },
-                    { t: "SQL", a: true },
-                    { t: ".", a: false },
+                    { t: " systems that move ", a: false },
+                    { t: "millions of records", a: true },
+                    { t: " — reliably.", a: false },
                 ];
 
                 // Strategy: render the FULL final text immediately with each character
