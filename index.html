@@ -259,6 +259,7 @@
         transition: color .2s ease, background .2s ease, transform .2s ease;
       }
       .site-header nav a:hover { color: var(--ink); background: var(--frost); transform: translateY(-1px); }
+      .site-header nav a[aria-current="location"] { color: var(--ink); background: var(--frost); }
       .site-header nav a::before {
         content: attr(data-index);
         margin-right: 5px;
@@ -275,6 +276,7 @@
         font-variation-settings: "wdth" 92, "opsz" 18;
       }
       .site-header .nav-cta:hover { color: var(--button-text); background: var(--button-bg); }
+      .site-header .nav-cta[aria-current="location"] { color: var(--button-text); background: var(--button-bg); }
       .header-actions { display: flex; align-items: center; gap: 8px; }
       .theme-toggle {
         width: 42px;
@@ -515,8 +517,11 @@
       }
       .project-card:hover { transform: translateY(-5px); box-shadow: 0 28px 70px rgba(17,18,15,.16); }
       .activity-card { z-index: 12; grid-column: 1 / -1; min-height: 520px; display: grid; grid-template-columns: 1.15fr .85fr; }
-      .shortener-card, .void-card { grid-column: span 7; }
+      .shortener-card { grid-column: span 7; }
       .delta-card, .edumate-card { grid-column: span 5; }
+      .void-card { grid-column: 1 / -1; min-height: 440px; display: grid; grid-template-columns: 1.1fr .9fr; }
+      .void-card .project-visual { min-height: 440px; }
+      .void-card .project-copy { order: -1; }
       .project-visual {
         min-height: 300px;
         position: relative;
@@ -781,6 +786,7 @@
         .trace-wrap { width: min(620px, 90%); margin: 10px auto 0; }
         .project-card:nth-child(n) { grid-column: span 6; }
         .activity-card { grid-column: 1 / -1; grid-template-columns: 1fr; }
+        .void-card { grid-column: 1 / -1; }
         .activity-card .project-visual { min-height: 390px; }
         .work-grid { grid-template-columns: 1fr; }
         .work-intro { position: static; }
@@ -818,6 +824,8 @@
         .project-grid { display: grid; grid-template-columns: 1fr; }
         .project-card:nth-child(n) { grid-column: 1; min-height: 0; }
         .activity-card { display: block; }
+        .void-card { display: block; }
+        .void-card .project-visual { min-height: 320px; }
         .activity-card .project-visual { min-height: 320px; }
         .activity-ui { width: 92%; padding: 14px; }
         .activity-pipeline { gap: 8px; }
@@ -900,7 +908,7 @@
           </div>
           <div class="hero-actions">
             <a class="button button-primary" href="#projects">View my work <span aria-hidden="true">↓</span></a>
-            <a class="button button-secondary" href="mailto:motiwalahussein@gmail.com">Let’s talk <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="https://www.icloud.com/iclouddrive/0eb5CJyz_IyNmB6kPa_SYr1Fg#Hussein_Motiwala_Resume" target="_blank" rel="noopener">View résumé <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
@@ -937,7 +945,7 @@
         <div class="section-head" data-reveal>
           <p class="section-kicker">Selected projects · Backend, data, AI</p>
           <h2 id="projects-title">Built beyond<br>the job description.</h2>
-          <p>Five projects, each built around a real constraint: local-first systems, production Java, data architecture, applied AI, and cloud infrastructure.</p>
+          <p>Four projects, each built around a real constraint: local-first systems, production Java, applied AI, and cloud infrastructure.</p>
         </div>
 
         <div class="project-grid">
@@ -986,11 +994,11 @@
               <div class="tags"><span>Spring Boot</span><span>PostgreSQL</span><span>Supabase</span><span>Render</span></div>
               <div class="project-links">
                 <a class="text-link" href="https://github.com/hussein-hub/url-shortener" target="_blank" rel="noopener">Source ↗</a>
-                <a class="text-link" href="https://url-shortener-bvrg.onrender.com/" target="_blank" rel="noopener">Live demo ↗</a>
               </div>
             </div>
           </article>
 
+          <!-- DB Delta is incomplete and intentionally hidden until development resumes.
           <article class="project-card delta-card" data-reveal>
             <div class="project-visual" aria-hidden="true">
               <div class="diff-ui">
@@ -1009,6 +1017,7 @@
               <div class="project-links"><a class="text-link" href="https://github.com/hussein-hub/db-delta" target="_blank" rel="noopener">Source ↗</a></div>
             </div>
           </article>
+          -->
 
           <article class="project-card edumate-card" data-reveal>
             <div class="project-visual" aria-hidden="true">
@@ -1061,7 +1070,7 @@
               <h3>Void</h3>
               <p>Cloud deployment backend for OCI with REST infrastructure provisioning, real-time WebSocket build logs, and a supporting CLI. Deployment logs arrive before the demo ends.</p>
               <div class="tags"><span>TypeScript</span><span>OCI</span><span>Docker</span><span>WebSockets</span></div>
-              <div class="project-links"><a class="text-link" href="https://github.com/hussein-hub/void" target="_blank" rel="noopener">Source ↗</a></div>
+              <div class="project-links"><span class="project-note">Private repository · Oracle Hackathon IP</span></div>
             </div>
           </article>
         </div>
@@ -1138,9 +1147,9 @@
 
           <div class="credentials" data-reveal>
             <article class="credential featured">
-              <small>Currently · Dublin</small>
+              <small>In progress · Dublin</small>
               <h3>MSc Business Analytics</h3>
-              <p>UCD Michael Smurfit Graduate Business School · 2025–2026</p>
+              <p>UCD Michael Smurfit Graduate Business School · Expected 2026</p>
             </article>
             <article class="credential">
               <small>First-class honours</small>
@@ -1232,15 +1241,31 @@
       toggle.addEventListener("click", () => {
         const open = toggle.getAttribute("aria-expanded") === "true";
         toggle.setAttribute("aria-expanded", String(!open));
+        toggle.textContent = open ? "Menu" : "Close";
         menu.hidden = open;
       });
 
       menu.addEventListener("click", (event) => {
         if (event.target.closest("a")) {
           toggle.setAttribute("aria-expanded", "false");
+          toggle.textContent = "Menu";
           menu.hidden = true;
         }
       });
+
+      const sectionLinks = [...document.querySelectorAll('.site-header nav a[href^="#"], #mobile-nav a[href^="#"]')];
+      const navSections = [...new Set(sectionLinks.map((link) => document.querySelector(link.hash)).filter(Boolean))];
+      const syncCurrentSection = () => {
+        const marker = scrollY + innerHeight * .36;
+        let current = navSections[0];
+        navSections.forEach((section) => { if (section.offsetTop <= marker) current = section; });
+        sectionLinks.forEach((link) => {
+          if (link.hash === `#${current.id}`) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
+      };
+      addEventListener("scroll", syncCurrentSection, { passive: true });
+      syncCurrentSection();
 
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
         document.querySelectorAll("[data-reveal]").forEach((node) => node.dataset.visible = "true");
