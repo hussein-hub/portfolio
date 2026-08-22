@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hussein Motiwala — Backend Engineer</title>
+    <title>Hussein Motiwala</title>
     <meta name="description" content="Backend engineer in Dublin building reliable Java, SQL, AI, and data-intensive systems.">
     <meta name="author" content="Hussein Motiwala">
     <meta name="robots" content="index, follow">
@@ -113,8 +113,7 @@
 
       ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
       ::view-transition-old(root) { z-index: 1; }
-      ::view-transition-new(root) { z-index: 9999; }
-      html.theme-shift *, html.theme-shift *::before, html.theme-shift *::after { transition-property: color, background-color, border-color, box-shadow; transition-duration: .45s; }
+      ::view-transition-new(root) { z-index: 9999; will-change: clip-path; }
       html.theme-shift::after {
         content: "";
         position: fixed;
@@ -125,9 +124,10 @@
         height: 14px;
         border: 2px solid var(--cobalt);
         border-radius: 50%;
-        box-shadow: 0 0 0 7px color-mix(in srgb, var(--cobalt) 20%, transparent);
+        background: color-mix(in srgb, var(--cobalt) 12%, transparent);
+        will-change: transform, opacity;
         pointer-events: none;
-        animation: theme-ripple .65s cubic-bezier(.22,1,.36,1) forwards;
+        animation: theme-ripple .42s cubic-bezier(.2,.8,.2,1) forwards;
       }
 
       *, *::before, *::after { box-sizing: border-box; }
@@ -763,7 +763,7 @@
       @keyframes about-line { 0%, 20% { transform: scaleX(.08); opacity: .45; } 55%, 75% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(.08); opacity: .45; transform-origin: right; } }
       @keyframes credential-focus { 0%, 26%, 100% { transform: translateX(0); border-color: var(--glass-edge); } 10%, 18% { transform: translateX(9px); border-color: var(--mint); } }
       @keyframes timeline-run { 0%, 100% { top: 18px; opacity: .35; } 15%, 85% { opacity: 1; } 50% { top: calc(100% - 30px); opacity: 1; } }
-      @keyframes theme-ripple { from { opacity: .8; transform: translate(-50%,-50%) scale(0); } to { opacity: 0; transform: translate(-50%,-50%) scale(150); } }
+      @keyframes theme-ripple { from { opacity: .7; transform: translate(-50%,-50%) scale(0); } to { opacity: 0; transform: translate(-50%,-50%) scale(var(--theme-scale)); } }
 
       .contact { padding: 0 0 50px; }
       .contact-panel {
@@ -1275,17 +1275,18 @@
         const x = box.left + box.width / 2;
         const y = box.top + box.height / 2;
         if (matchMedia("(prefers-reduced-motion: reduce)").matches) return switchTheme();
+        const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        document.documentElement.style.setProperty("--theme-x", `${x}px`);
+        document.documentElement.style.setProperty("--theme-y", `${y}px`);
+        document.documentElement.style.setProperty("--theme-scale", String(radius / 7));
         if (!document.startViewTransition) {
-          document.documentElement.style.setProperty("--theme-x", `${x}px`);
-          document.documentElement.style.setProperty("--theme-y", `${y}px`);
           document.documentElement.classList.add("theme-shift");
           switchTheme();
-          return setTimeout(() => document.documentElement.classList.remove("theme-shift"), 700);
+          return setTimeout(() => document.documentElement.classList.remove("theme-shift"), 450);
         }
-        const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
         document.startViewTransition(switchTheme).ready.then(() => document.documentElement.animate(
           { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-          { duration: 650, easing: "cubic-bezier(.22,1,.36,1)", pseudoElement: "::view-transition-new(root)" }
+          { duration: 520, easing: "cubic-bezier(.22,1,.36,1)", pseudoElement: "::view-transition-new(root)" }
         ));
       });
 
